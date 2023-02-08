@@ -1,0 +1,6 @@
+PI = 3.14
+SECONDS_IN_HOUR = 3600
+DAYS_IN_WEEK = 7
+
+PI = 3.142
+print(PI)
