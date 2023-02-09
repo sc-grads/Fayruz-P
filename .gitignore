@@ -128,3 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 /PythonBasics/Python Basics Cheat Sheet.pdf
+.idea
+
