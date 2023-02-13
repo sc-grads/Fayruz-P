@@ -1,0 +1,264 @@
+# Challenge #1
+#
+# Create a Python script that asks the user for a number
+# and then prints out a list of all the divisors of each number less than the asked number.
+
+x = int(input('Enter a number: '))
+for i in range(1, x):
+    if x % i == 0:
+        print(i)
+    else:
+        continue
+
+# Challenge #2
+#
+# Write a Python program to check if an integer (x) is the power of another integer (y). Prompt the user to input both integers.
+#
+# Input: 16, 2
+#
+# Output: 2 ** 4 = 16
+
+x = int(input("Enter a number x: "))
+y = int(input(f"Enter a number y to test if x which is {x} is a power of y: "))
+
+found = False
+
+for k in range(2, x // 2):
+    if y ** k == x:
+        print(f"{y} ** {k} = {x}")
+        found = True
+        break
+else:
+    print(f'{x} is not the power of {y}')
+
+# Challenge #3
+#
+# Write a Python program that counts and displays the vowels of a given string ignoring the letter case.
+#
+# Input str: Hello Everybody!
+#
+# Output: 5
+
+vowels = 'aeiou'
+my_str = 'Hello Fayruz.'
+
+count = 0
+for v in vowels:
+    if v in my_str.lower():
+        count += my_str.count(v)
+
+print(f'Total number of vowels: {count}')
+
+# Challenge #4
+#
+# Write a Python script that checks if a triangle is equilateral, isosceles or scalene.
+#
+# The user will be prompted for the triangle sides.
+#
+# Note:
+#
+# An equilateral triangle is a triangle in which all three sides have the same length.
+#
+# An isosceles triangle is a triangle that has two equal sides.
+#
+# A scalene triangle is a triangle that has three unequal sides.
+#
+#
+#
+# Input: Enter the lengths of the triangle sides:
+#
+# x: 6
+#
+# y: 8
+#
+# z: 12
+#
+# Expected Output: Scalene triangle.
+
+x = int(input('Enter side a of triangle:'))
+y = int(input('Enter side a of triangle:'))
+z = int(input('Enter side a of triangle:'))
+
+if x == z and y == z and x == y:
+    print('Triangle is Equalateral')
+elif x == y or y == z or x == z:
+    print('Triangle is Isosceles')
+else:
+    print('Triangle is Scalene')
+
+# Challenge #5
+#
+# Write a Python program that calculates and displays the sum, the product and the average of n
+# float numbers entered by the user, each on a separate line. Enter 0 to finish.
+
+
+print("Enter some floats to calculate their sum, product and average. Input 0 to exit.")
+
+count = 0
+sum = 0.0
+product = 1
+
+while True:
+    number = float(input(''))
+    if number == 0:
+        break
+
+    sum += number
+    product *= number
+    count += 1
+
+if count < 2:
+    print("Enter at least two numbers.")
+else:
+    print(f'Sum, product and average are: {sum}, {sum / count}, {product}')
+
+# Challenge #6
+#
+# Given the string s1, write a program to return the sum and the average of the digits that appear in the string, ignoring all other characters.
+#
+# Input: Python31py50
+#
+# Output: Sum: 9, Average: 2.25
+
+s1 = 'I am 21 years old'
+sum = 0
+count = 0
+for char in s1:
+    if char.isdigit():
+        sum += int(char)
+        count += 1
+
+print(f'Sum: {sum}\nAverage: {sum / count}')
+
+# Challenge #7
+#
+# Write a Python program that displays the multiplication table (from 1 to 10) of a specific integer number entered by the user.
+#
+# Input: User enters 8
+#
+# Output:
+#
+# 8 x 1 = 8
+#
+# 8 x 2 = 16
+#
+# 8 x 3 = 24
+#
+# 8 x 4 = 32
+#
+# 8 x 5 = 40
+#
+# 8 x 6 = 48
+#
+# 8 x 7 = 56
+#
+# 8 x 8 = 64
+#
+# 8 x 9 = 72
+#
+# 8 x 10 = 80
+
+x = int(input('Enter a number:'))
+for i in range(1, 11):
+    print(f'{x} x {i} = {x * i}')
+
+# Challenge #8
+#
+# Write a Python script that displays the following pattern from 1 to n where n is entered by the user.
+#
+# If the user enters 6 it will display:
+#
+# 1
+#
+# 22
+#
+# 333
+#
+# 4444
+#
+# 55555
+#
+# 666666
+
+n = int(input('Enter whole number:'))
+for i in range(n + 1):
+    print(str(i) * i)
+
+# Challenge #9
+#
+# Write a Python program that finds the common characters that appear in two given strings.
+
+s1 = 'Hello you!'
+s2 = 'python'
+
+common_chars = ''
+for c1 in s1:
+    if c1 in s2:
+        if c1 not in common_chars:  # adding the common char only once
+            common_chars += c1
+
+print(f'Common characters: {common_chars}')
+
+# Challenge #10
+#
+# Write a Python program that iterates over the integers from 1 to 50.
+#
+# For multiples of three print "Foo" instead of the number and for multiples of five print "Bar".
+#
+# For numbers that are multiples of both three and five print "FooBar".
+
+for i in range(1, 51):
+    if i % 3 == 0:
+        print('Foo')
+        continue
+    elif i % 5 == 0:
+        print('Bar')
+        continue
+    elif i % 3 == 0 and i % 5 == 0:
+        print('FooBar')
+        continue
+    print(i)
+
+# Challenge #11
+#
+# Write a Python script that prints out the Fibonacci series up to a given number n.
+# Example: if n is 23 it will print out 0, 1, 1, 2, 3, 5, 8, 13, 21
+
+n = int(input('Enter a number:'))
+a, b = 0, 1
+while a <= n:
+    print(a, ' ', end=' ')
+    a, b = b, a + b
+
+
+# Challenge #12
+#
+# Write a Python script that draws the following pattern using for loops.
+#
+# *
+#
+# * *
+#
+# * * *
+#
+# * * * *
+#
+# * * * * *
+#
+# * * * *
+#
+# * * *
+#
+# * *
+#
+# *
+n = 10
+for i in range(n):
+    for j in range(i):
+        print ('* ', end='')
+    print('')
+
+for i in range(n, 0, -1):
+    for j in range(i):
+        print('* ', end='')
+    print('')
