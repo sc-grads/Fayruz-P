@@ -131,4 +131,8 @@ dmypy.json
 .idea
 /Strings/Strings Cheat Sheet.pdf
 !/Loops/Flow Control and Loops Cheat Sheet.pdf
+sets_and_frozensets
 !/Sets_and_Frozensets/Sets Cheat Sheet.pdf
+
+!/Tuples/Tuples Cheat Sheet.pdf
+main
