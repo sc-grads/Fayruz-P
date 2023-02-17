@@ -154,3 +154,5 @@ main
 !/BuiltInModules/the_os_module.py
 !/BuiltInModules/test_email.html
 !/BuiltInModules/python.pdf
+!/Decorators/closures.py
+!/Decorators/a.txt
