@@ -156,3 +156,5 @@ main
 !/BuiltInModules/python.pdf
 !/Decorators/closures.py
 !/Decorators/a.txt
+!/CSVFiles/airtravel.csv
+!/CSVFiles/people.csv
