@@ -158,3 +158,5 @@ main
 !/Decorators/a.txt
 !/CSVFiles/airtravel.csv
 !/CSVFiles/people.csv
+!/ExcelFiles/store.xlsx
+!/ExcelFiles/sales.xlxs
