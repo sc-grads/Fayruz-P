@@ -160,3 +160,5 @@ main
 !/CSVFiles/people.csv
 !/ExcelFiles/store.xlsx
 !/ExcelFiles/sales.xlxs
+!/Pandas/salaries.xlsx
+!/Pandas/countries_of_the_world.csv
