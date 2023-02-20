@@ -162,3 +162,7 @@ main
 !/ExcelFiles/sales.xlxs
 !/Pandas/salaries.xlsx
 !/Pandas/countries_of_the_world.csv
+!/DataVisualizationWithPlotly/houses.csv
+!/DataVisualizationWithPlotly/gold_monthly_price.csv
+!/DataVisualizationWithPlotly/countries_of_the_world (1).csv
+!/DataVisualizationWithPlotly/monthly_salary.csv
