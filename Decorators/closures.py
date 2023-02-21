@@ -31,3 +31,4 @@ print(xx)  # => 1
 
 print(func1())  # => 2
 print(func1())  # => 3
+print(func1())
