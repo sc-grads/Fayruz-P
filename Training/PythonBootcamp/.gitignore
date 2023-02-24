@@ -127,43 +127,43 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/PythonBasics/Python Basics Cheat Sheet.pdf
+/PythonBootcamp/PythonBasics/Python Basics Cheat Sheet.pdf
 .idea
-/Strings/Strings Cheat Sheet.pdf
+/PythonBootcamp/Strings/Strings Cheat Sheet.pdf
 !/Loops/Flow Control and Loops Cheat Sheet.pdf
 
-!/Dictionaries/Dictionaries Cheat Sheet.pdf
-!/Dictionaries/phonetic_alphabet.csv
+!/PythonBootcamp/Dictionaries/Dictionaries Cheat Sheet.pdf
+!/PythonBootcamp/Dictionaries/phonetic_alphabet.csv
 
-sets_and_frozensets
-!/Sets_and_Frozensets/Sets Cheat Sheet.pdf
+PythonBootcamp/Sets_and_Frozensets
+!/PythonBootcamp/Sets_and_Frozensets/Sets Cheat Sheet.pdf
 
-!/Tuples/Tuples Cheat Sheet.pdf
+!/PythonBootcamp/Tuples/Tuples Cheat Sheet.pdf
 main
 
-!/Functions/Functions Cheat Sheet.pdf
-!/TextFiles/settings.txt
-!/TextFiles/Working Files Cheat Sheet.pdf
-!/HandsOnChallengesTextFiles/macs.txt
-!/HandsOnChallengesTextFiles/sample_file.txt
-!/HandsOnChallengesTextFiles/file.txt
-!/HandsOnChallengesTextFiles/american-english.txt
-!/HandsOnChallengesTextFiles/banking.txt
-!/ErrorsAndExceptionHandling/Exceptions Cheat Sheet.pdf
-!/ClassesAndObjects/OOP Cheat Sheet.pdf
-!/BuiltInModules/the_os_module.py
-!/BuiltInModules/test_email.html
-!/BuiltInModules/python.pdf
-!/Decorators/closures.py
-!/Decorators/a.txt
-!/CSVFiles/airtravel.csv
-!/CSVFiles/people.csv
-!/ExcelFiles/store.xlsx
-!/ExcelFiles/sales.xlxs
-!/Pandas/salaries.xlsx
-!/Pandas/countries_of_the_world.csv
-!/DataVisualizationWithPlotly/houses.csv
-!/DataVisualizationWithPlotly/gold_monthly_price.csv
-!/DataVisualizationWithPlotly/countries_of_the_world (1).csv
-!/DataVisualizationWithPlotly/monthly_salary.csv
-!/RequestsAndWebScraping/movies-2019.xlxs
+!/PythonBootcamp/Functions/Functions Cheat Sheet.pdf
+!/PythonBootcamp/TextFiles/settings.txt
+!/PythonBootcamp/TextFiles/Working Files Cheat Sheet.pdf
+!/PythonBootcamp/HandsOnChallengesTextFiles/macs.txt
+!/PythonBootcamp/HandsOnChallengesTextFiles/sample_file.txt
+!/PythonBootcamp/HandsOnChallengesTextFiles/file.txt
+!/PythonBootcamp/HandsOnChallengesTextFiles/american-english.txt
+!/PythonBootcamp/HandsOnChallengesTextFiles/banking.txt
+!/PythonBootcamp/ErrorsAndExceptionHandling/Exceptions Cheat Sheet.pdf
+!/PythonBootcamp/ClassesAndObjects/OOP Cheat Sheet.pdf
+!/PythonBootcamp/BuiltInModules/the_os_module.py
+!/PythonBootcamp/BuiltInModules/test_email.html
+!/PythonBootcamp/BuiltInModules/python.pdf
+!/PythonBootcamp/Decorators/closures.py
+!/PythonBootcamp/Decorators/a.txt
+!/PythonBootcamp/CSVFiles/airtravel.csv
+!/PythonBootcamp/CSVFiles/people.csv
+!/PythonBootcamp/ExcelFiles/store.xlsx
+!/PythonBootcamp/ExcelFiles/sales.xlxs
+!/PythonBootcamp/Pandas/salaries.xlsx
+!/PythonBootcamp/Pandas/countries_of_the_world.csv
+!/PythonBootcamp/DataVisualizationWithPlotly/houses.csv
+!/PythonBootcamp/DataVisualizationWithPlotly/gold_monthly_price.csv
+!/PythonBootcamp/DataVisualizationWithPlotly/countries_of_the_world (1).csv
+!/PythonBootcamp/DataVisualizationWithPlotly/monthly_salary.csv
+!/PythonBootcamp/RequestsAndWebScraping/movies-2019.xlxs
