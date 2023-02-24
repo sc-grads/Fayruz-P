@@ -27,7 +27,7 @@ os.path.isdir('/tmp')  # returns True if argument is a directory
 name, extention = os.path.splitext('/var/log/kern.log')  # name is 'kern', extention is '.log'
 
 ## Listing a directory
-os.listdir('.')  # returns the entries in the current working directory as a list
+os.listdir('')  # returns the entries in the current working directory as a list
 os.listdir('C:\\Users')  # returns the entries in the directory as a list
 
 os.path.getmtime('/etc/passwd')  # => 1547047769.9049096, returns file's last modification time as a timestamp
