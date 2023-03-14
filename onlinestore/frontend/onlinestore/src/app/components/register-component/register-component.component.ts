@@ -12,7 +12,6 @@ export class RegisterComponentComponent {
 
 fname: string = '';
 lname: string = '';
-username: string = '';
 email: string = '';
 password: string = '';
 number: string = '';
@@ -20,10 +19,10 @@ address: string = '';
 
 onRegister(){
 
-  console.debug(`${this.fname}${this.lname}${this.username}${this.email} ${this.password}${this.number}${this.address}`);
-  this.http.post('http://localhost:5000/login',
-    {username:this.username, password:this.password}).subscribe(
-      response=> {console.debug(`${this.username} ${response}${this.password}`);
+  console.debug(`${this.fname}${this.lname}${this.email} ${this.password}${this.number}${this.address}`);
+  this.http.post('http://localhost:5000/register',
+    {fname:this.fname, lname:this.lname,email:this.email,password:this.password,number:this.number,address:this.address}).subscribe(
+      response=> {console.debug(`${this.fname}${this.lname}${this.email} ${this.password}${this.number}${this.address}${response}`);
   console.debug(response)});
 }
 
