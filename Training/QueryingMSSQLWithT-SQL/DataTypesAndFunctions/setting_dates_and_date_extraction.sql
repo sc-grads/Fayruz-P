@@ -7,3 +7,4 @@ select @mydate2 as MyDate
 select DATEFROMPARTS(2015,06,24) as ThisDate
 select DATETIME2FROMPARTS(2015,06,24,12,34,56,124,5) as ThatDate
 select year(@mydate) as myYear, month(@mydate) as myMonth, day(@mydate) as myDay
+

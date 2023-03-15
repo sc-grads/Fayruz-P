@@ -5,7 +5,7 @@ from sys.all_columns
 
 --Question 2
 
-select [name] + N'?'
+select [name] + N'Ⱥ'
 from sys.all_columns
 
 --Question 3
