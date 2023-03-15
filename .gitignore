@@ -267,3 +267,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/onlinestore/frontend/onlinestore/.angular/
+/onlinestore/frontend/onlinestore/.vscode/
+/onlinestore/frontend/onlinestore/node_modules/
