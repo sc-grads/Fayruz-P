@@ -51,10 +51,10 @@
 /Training/MSSDatabaseAdministrationCourse/AdvancedSQLServerAdministrationTopics/TDEEncryption.pdf
 /Training/MSSDatabaseAdministrationCourse/CourseOverview/SQLCheatSheat.docx
 /Training/MSSDatabaseAdministrationCourse/CourseOverview/SQLServerDBAQuestions.docx
-/Training/.idea/
-/onlinestore/.idea/
-/.idea/
-/Training/QueryingMSSQLWithT-SQL/.idea/
+/Fayruz-P/Training/.idea/
+/Fayruz-P/onlinestore/.idea/
+/Fayruz-P/.idea/
+/Fayruz-P/Training/QueryingMSSQLWithT-SQL/.idea/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
