@@ -51,12 +51,8 @@
 /Training/MSSDatabaseAdministrationCourse/AdvancedSQLServerAdministrationTopics/TDEEncryption.pdf
 /Training/MSSDatabaseAdministrationCourse/CourseOverview/SQLCheatSheat.docx
 /Training/MSSDatabaseAdministrationCourse/CourseOverview/SQLServerDBAQuestions.docx
-/Fayruz-P/Training/.idea/
-/Fayruz-P/onlinestore/.idea/
-/Fayruz-P/.idea/
-/Fayruz-P/Training/QueryingMSSQLWithT-SQL/.idea/
-# Byte-compiled / optimized / DLL files
-__pycache__/
+
+_pycache__/
 *.py[cod]
 *$py.class
 
@@ -184,46 +180,45 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/PythonBootcamp/PythonBasics/Python Basics Cheat Sheet.pdf
-.idea
-/PythonBootcamp/Strings/Strings Cheat Sheet.pdf
-!/Loops/Flow Control and Loops Cheat Sheet.pdf
+#/PythonBootcamp/PythonBasics/Python Basics Cheat Sheet.pdf
+/TrainingPythonBootcamp/.idea
+/TrainingPythonBootcamp/Strings/Strings Cheat Sheet.pdf
+/Training/Loops/Flow Control and Loops Cheat Sheet.pdf
 
-!/PythonBootcamp/Dictionaries/Dictionaries Cheat Sheet.pdf
-!/PythonBootcamp/Dictionaries/phonetic_alphabet.csv
+/Training/PythonBootcamp/Dictionaries/Dictionaries Cheat Sheet.pdf
+/Training/PythonBootcamp/Dictionaries/phonetic_alphabet.csv
 
-PythonBootcamp/Sets_and_Frozensets
-!/PythonBootcamp/Sets_and_Frozensets/Sets Cheat Sheet.pdf
 
-!/PythonBootcamp/Tuples/Tuples Cheat Sheet.pdf
+/Training/PythonBootcamp/Sets_and_Frozensets/Sets Cheat Sheet.pdf
+
+/Training/PythonBootcamp/Tuples/Tuples Cheat Sheet.pdf
 main
 
-!/PythonBootcamp/Functions/Functions Cheat Sheet.pdf
-!/PythonBootcamp/TextFiles/settings.txt
-!/PythonBootcamp/TextFiles/Working Files Cheat Sheet.pdf
-!/PythonBootcamp/HandsOnChallengesTextFiles/macs.txt
-!/PythonBootcamp/HandsOnChallengesTextFiles/sample_file.txt
-!/PythonBootcamp/HandsOnChallengesTextFiles/file.txt
-!/PythonBootcamp/HandsOnChallengesTextFiles/american-english.txt
-!/PythonBootcamp/HandsOnChallengesTextFiles/banking.txt
-!/PythonBootcamp/ErrorsAndExceptionHandling/Exceptions Cheat Sheet.pdf
-!/PythonBootcamp/ClassesAndObjects/OOP Cheat Sheet.pdf
-!/PythonBootcamp/BuiltInModules/the_os_module.py
-!/PythonBootcamp/BuiltInModules/test_email.html
-!/PythonBootcamp/BuiltInModules/python.pdf
-!/PythonBootcamp/Decorators/closures.py
-!/PythonBootcamp/Decorators/a.txt
-!/PythonBootcamp/CSVFiles/airtravel.csv
-!/PythonBootcamp/CSVFiles/people.csv
-!/PythonBootcamp/ExcelFiles/store.xlsx
-!/PythonBootcamp/ExcelFiles/sales.xlxs
-!/PythonBootcamp/Pandas/salaries.xlsx
-!/PythonBootcamp/Pandas/countries_of_the_world.csv
-!/PythonBootcamp/DataVisualizationWithPlotly/houses.csv
-!/PythonBootcamp/DataVisualizationWithPlotly/gold_monthly_price.csv
-!/PythonBootcamp/DataVisualizationWithPlotly/countries_of_the_world (1).csv
-!/PythonBootcamp/DataVisualizationWithPlotly/monthly_salary.csv
-!/PythonBootcamp/RequestsAndWebScraping/movies-2019.xlxs
+/Training/PythonBootcamp/Functions/Functions Cheat Sheet.pdf
+/Training/PythonBootcamp/TextFiles/settings.txt
+/Training/PythonBootcamp/TextFiles/Working Files Cheat Sheet.pdf
+/Training/PythonBootcamp/HandsOnChallengesTextFiles/macs.txt
+/Training/PythonBootcamp/HandsOnChallengesTextFiles/sample_file.txt
+/Training/PythonBootcamp/HandsOnChallengesTextFiles/file.txt
+/Training/PythonBootcamp/HandsOnChallengesTextFiles/american-english.txt
+/Training/PythonBootcamp/HandsOnChallengesTextFiles/banking.txt
+/Training/PythonBootcamp/ErrorsAndExceptionHandling/Exceptions Cheat Sheet.pdf
+/Training/PythonBootcamp/ClassesAndObjects/OOP Cheat Sheet.pdf
+/Training/PythonBootcamp/BuiltInModules/the_os_module.py
+/Training/PythonBootcamp/BuiltInModules/test_email.html
+/Training/PythonBootcamp/BuiltInModules/python.pdf
+/Training/PythonBootcamp/Decorators/closures.py
+/Training/PythonBootcamp/Decorators/a.txt
+/Training/PythonBootcamp/CSVFiles/airtravel.csv
+/Training/PythonBootcamp/CSVFiles/people.csv
+/Training/PythonBootcamp/ExcelFiles/store.xlsx
+/Training/PythonBootcamp/ExcelFiles/sales.xlxs
+/Training/PythonBootcamp/Pandas/salaries.xlsx
+/Training/PythonBootcamp/Pandas/countries_of_the_world.csv
+/Training/PythonBootcamp/DataVisualizationWithPlotly/houses.csv
+/Training/PythonBootcamp/DataVisualizationWithPlotly/gold_monthly_price.csv
+/Training/PythonBootcamp/DataVisualizationWithPlotly/countries_of_the_world (1).csv
+/Training/PythonBootcamp/RequestsAndWebScraping/movies-2019.xlxs
 
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
@@ -234,7 +229,10 @@ main
 /bazel-out
 
 # Node
-/node_modules
+onlinestore/frontend/onlinestore/node_modules
+onlinestore/frontend/onlinestore/.angular
+onlinestore/frontend/onlinestore/.vscode
+onlinestore/venv
 npm-debug.log
 yarn-error.log
 
@@ -267,6 +265,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-/onlinestore/frontend/onlinestore/.angular/
-/onlinestore/frontend/onlinestore/.vscode/
-/onlinestore/frontend/onlinestore/node_modules/
+/onlinestore/.idea/
+/.idea/
+/Training/.idea/
