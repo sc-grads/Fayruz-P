@@ -268,6 +268,7 @@ Thumbs.db
 /onlinestore/.idea/
 /.idea/
 /Training/.idea/
+
 /Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/WebApplication1/
 /Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/Deployment/DataFlowControl/.vs/
 /Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/Deployment/DataFlowControl/bin/
@@ -276,5 +277,15 @@ Thumbs.db
 /Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/Deployment/DataFlowControl/.vs/
 /Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/DataFlowTraining/.vs/
 /Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/ControlFlowTraining/.vs/
+
+/Training/MasteringSSISPart1/DataMigrationTechniques/.vs/
+/Training/MasteringSSISPart1/DataMigrationTechniques/.idea/
+/Training/MasteringSSISPart1/DataMigrationTechniques/Output/
+/Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/DataFlowTraining/.vs/
+/Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/DataFlowTraining/DataFlowTraining/Project.params
+/Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/DataFlowTraining/DataFlowTraining/DataFlowTraining.dtproj.user
+/Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/DataFlowTraining/DataFlowTraining/DataFlowTraining.dtproj
+/Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/DataFlowTraining/DataFlowTraining/DataFlowTraining.database
+
 /Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/DataFlowTraining/DataFlowTraining/bin/
 /Training/MasteringSSISPart1/DataMigrationTechniques/SSISDemos/DataFlowTraining/DataFlowTraining/obj/
