@@ -6,15 +6,18 @@ import {LoginComponentComponent } from './components/login-component/login-compo
 import {HttpClientModule} from "@angular/common/http";
 import {RegisterComponentComponent } from './components/register-component/register-component.component';
 import {Routes, RouterModule} from "@angular/router";
+import { HomeComponentComponent } from './components/home-component/home-component.component';
+import { DashboardComponentComponent } from './components/dashboard-component/dashboard-component.component';
 
 
 
 
 
 const routes: Routes = [
-  { path: '', component: RegisterComponentComponent },
+  { path: '', component: HomeComponentComponent },
   { path: 'register', component: RegisterComponentComponent },
   { path: 'login', component: LoginComponentComponent },
+  { path: 'dashboard', component: DashboardComponentComponent },
 ];
 
 @NgModule({
@@ -22,6 +25,8 @@ const routes: Routes = [
     AppComponent,
     LoginComponentComponent,
     RegisterComponentComponent,
+    HomeComponentComponent,
+    DashboardComponentComponent,
 
   ],
   imports: [
