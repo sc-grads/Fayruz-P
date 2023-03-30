@@ -1,3 +1,5 @@
+
+
 import pyodbc
 from flask import Flask, request, session, jsonify
 
@@ -33,13 +35,47 @@ def retrieve(username, newpassword):
     cursor.execute('SELECT * FROM Customers WHERE email_address = ? AND password = ?', (username, newpassword))
     row = cursor.fetchone()
     if row:
-        # TODO: generate and return a token or session variable
+
         session['customer_ID'] = row.id
         return jsonify({'success': True, 'message': 'Logged in'})
     else:
         return jsonify({'success': False, 'message': 'Invalid username or password'})
 
 
+
+
+
+def get_products():
+    dbconnect = pyodbc.connect(connection)
+    cursor = dbconnect.cursor()
+    cursor.execute("SELECT product_ID, product_name, product_price, product_size FROM Products")
+    rows = cursor.fetchall()
+    Product = namedtuple('Product', [column[0] for column in cursor.description])
+    return [dict(Product._make(row)._asdict()) for row in rows]
+
+
+
+
+
+def add_to_cart(product_ID, quantity):
+    dbconnect = pyodbc.connect(connection)
+    cursor = dbconnect.cursor()
+    cursor.execute("INSERT INTO cart (product_ID, quantity) VALUES (?, ?)", (product_ID, quantity))
+    cursor.commit()
+    cursor.close()
+    return jsonify({'message': 'Item added to cart'})
+
+
+def get_cart():
+    dbconnect = pyodbc.connect(connection)
+    cursor = dbconnect.cursor()
+    cursor.execute(
+        "SELECT  Products.product_name, Products.product_price, cart.quantity FROM cart INNER JOIN Products ON "
+        "cart.product_ID=Products.product_ID")
+    cart_items = cursor.fetchall()
+    cursor.close()
+    return jsonify(cart_items)
+=======
 def profile():
     user_id = session.get('customer_ID_id')
 
@@ -53,3 +89,4 @@ def profile():
         cursor.close()
 
         return jsonify({'username': user.username, 'email': user.email})
+
