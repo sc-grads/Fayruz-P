@@ -1,4 +1,4 @@
-from collections import namedtuple
+
 
 import pyodbc
 from flask import Flask, request, session, jsonify
@@ -29,7 +29,6 @@ def insert(fname, lname, email, newpassword, number, address):
     cursor.close()
     return 'Added User'
 
-
 def retrieve(username, newpassword):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
@@ -41,6 +40,7 @@ def retrieve(username, newpassword):
         return jsonify({'success': True, 'message': 'Logged in'})
     else:
         return jsonify({'success': False, 'message': 'Invalid username or password'})
+
 
 
 
@@ -75,3 +75,18 @@ def get_cart():
     cart_items = cursor.fetchall()
     cursor.close()
     return jsonify(cart_items)
+=======
+def profile():
+    user_id = session.get('customer_ID_id')
+
+    if user_id is None:
+        return 'Unauthorized', 401
+    else:
+        dbconnect = pyodbc.connect(connection)
+        cursor = dbconnect.cursor()
+        cursor.execute('SELECT * FROM Customers WHERE id = ?', (user_id,))
+        user = cursor.fetchone()
+        cursor.close()
+
+        return jsonify({'username': user.username, 'email': user.email})
+
