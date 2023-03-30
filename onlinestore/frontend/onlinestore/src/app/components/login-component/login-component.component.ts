@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-
+import {Router} from "@angular/router";
 @Component({
   selector: 'app-login-component',
   templateUrl: './login-component.component.html',
@@ -8,12 +8,14 @@ import {HttpClient} from "@angular/common/http";
 })
 export class LoginComponentComponent {
 
-constructor(private http:HttpClient){}
+constructor(private http:HttpClient, private router: Router){}
 
 username: string = '';
 password: string = '';
 
-
+navigatetoDashboard(){
+  this.router.navigate(['/dashboard']).then(r => console.debug("redirected"));
+}
 onlogin(){
 
   console.debug(`${this.username} ${this.password}`);
@@ -21,6 +23,7 @@ onlogin(){
     {username:this.username, password:this.password}).subscribe(
       response=> {console.debug(`${this.username} ${response}${this.password}`);
   console.debug(response)});
+  this.navigatetoDashboard();
 }
 
 
