@@ -1,7 +1,14 @@
 <h1>Cart</h1>
-<div *ngFor="let item of items">
-  <h2>{{ item.product_name }}</h2>
-  <p>{{ item.product_price | currency }}</p>
-  <button (click)="removeFromCart(item.product_ID)">Remove from Cart</button>
+<div *ngIf="items && items.length > 0; else noItems">
+  <div *ngFor="let item of items">
+    <h2>{{ item.product_name }}</h2>
+    <p>{{ item.product_price | currency }}</p>
+    <button (click)="removeFromCart(item.product_ID)">Remove from Cart</button>
+    <p>{{ item.quantity }}</p>
+    <p>{{ item.product_price * item.quantity | currency }}</p>
+  </div>
+  <p>Total: {{ getTotal() | currency }}</p>
 </div>
-<p>Total: {{ getTotal() | currency }}</p>
+<ng-template #noItems>
+  <p>Your cart is empty.</p>
+</ng-template>

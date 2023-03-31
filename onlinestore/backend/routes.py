@@ -51,8 +51,9 @@ def dashboard():
 
 @app.route('/cart')
 def cart_retrieve():
-    dbm.get_cart()
-    return {'200': 'Cart Retrieved!'}
+    items = dbm.get_cart()
+    return jsonify(items)
+
 
 
 @app.route('/add_to_cart', methods=['POST'])

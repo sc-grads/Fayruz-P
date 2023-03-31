@@ -21,12 +21,6 @@ export class ProductListComponent implements OnInit{
 
   constructor(private http: HttpClient) { }
 
-  // ngOnInit(): void {
-  //   const header = new HttpHeaders({'Content-Type': 'products/json','Access-Control-Allow-Origin':'*'})
-  //   this.http.get('http://localhost:5000/shop', {headers:header}).subscribe((products) => {
-  //     console.log(products);
-  //   });
-  // }
 
   ngOnInit(): void {
     this.http.get<any[]>('http://localhost:5000/shop').subscribe(data => {
