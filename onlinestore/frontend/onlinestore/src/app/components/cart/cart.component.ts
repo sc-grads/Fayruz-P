@@ -30,15 +30,12 @@ export class CartComponent implements OnInit {
 
 
 
-
-
-
-
   removeFromCart(itemId: number) {
-    this.http.post('http://localhost:5000/remove_from_cart', { product_ID: itemId }).subscribe(response => {
-      console.log(response);
-    });
-  }
+  this.http.put('http://localhost:5000/remove_from_cart/' + itemId, {}).subscribe(response => {
+    console.log(response);
+  });
+}
+
 
   getTotal() {
     return this.items.reduce((total, item) => total + item.product_price * item.quantity, 0);

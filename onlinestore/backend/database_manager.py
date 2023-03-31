@@ -54,14 +54,26 @@ def get_products():
 
 
 
-
 def add_to_cart(product_ID, quantity):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
-    cursor.execute("INSERT INTO Cart (product_id, quantity) VALUES (?, ?)", (product_ID, quantity))
+
+    # Check if the product already exists in the cart
+    cursor.execute("SELECT quantity FROM Cart WHERE product_id = ?", (product_ID,))
+    row = cursor.fetchone()
+
+    if row is None:
+        # Product does not exist in the cart, add it with the specified quantity
+        cursor.execute("INSERT INTO Cart (product_id, quantity) VALUES (?, ?)", (product_ID, quantity))
+    else:
+        # Product already exists in the cart, update the quantity
+        cursor.execute("UPDATE Cart SET quantity = quantity + ? WHERE product_id = ?", (quantity, product_ID))
+
     cursor.commit()
     cursor.close()
+
     return jsonify({'message': 'Item added to cart'})
+
 
 
 def get_cart():
@@ -80,10 +92,16 @@ def get_cart():
 def remove_from_cart(product_ID):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
-    cursor.execute("DELETE FROM Cart WHERE product_ID=?", (product_ID,))
-    dbconnect.commit()
+    cursor.execute("SELECT quantity FROM Cart WHERE product_ID=?", (product_ID,))
+    row = cursor.fetchone()
+    if row:
+        if row[0] > 1:
+            new_quantity = row[0] - 1
+            cursor.execute("UPDATE Cart SET quantity=? WHERE product_ID=?", (new_quantity, product_ID))
+        else:
+            cursor.execute("DELETE FROM Cart WHERE product_ID=?", (product_ID,))
+        dbconnect.commit()
     cursor.close()
-
 
 
 
