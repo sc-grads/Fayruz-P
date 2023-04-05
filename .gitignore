@@ -335,3 +335,5 @@ testem.log
 .DS_Store
 Thumbs.db
 /Training/PowerBIDesktopForBI/Resources/
+/Training/PowerBIDesktopForBI/AdventureWorks/Resources/
+/Training/PowerBIDesktopForBI/MavenMarket_Project/Resources/
