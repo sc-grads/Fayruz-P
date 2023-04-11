@@ -64,6 +64,14 @@ def cart_add():
     dbm.add_to_cart(product_id, quantity)
     return {'200': 'Added to cart'}
 
+@app.route('/remove_from_cart/<int:product_id>', methods=['DELETE'])
+def cart_remove(product_id):
+    dbm.remove_from_cart(product_id)
+    if len(dbm.get_cart()) > 0:
+        dbm.get_cart()
+        return {'200': 'Cart refreshed'}
+    else:
+        return {'200': 'Removed from cart'}
 
 @app.route('/favicon.ico')
 def favicon():

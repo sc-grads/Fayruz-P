@@ -325,15 +325,11 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-testem.log
-/typings
 
 # System files
-.DS_Store
-Thumbs.db
+/Training/PowerBIDesktopForBI/Resources/
+/Training/PowerBIDesktopForBI/AdventureWorks/Resources/
+/Training/PowerBIDesktopForBI/MavenMarket_Project/Resources/
 /Training/PowerBIDesktopForBI/Resources/
 /Training/PowerBIDesktopForBI/AdventureWorks/Resources/
 /Training/PowerBIDesktopForBI/MavenMarket_Project/Resources/

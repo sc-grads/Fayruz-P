@@ -1,14 +1,12 @@
+
 <h1>Cart</h1>
-<div *ngIf="items && items.length > 0; else noItems">
+
   <div *ngFor="let item of items">
     <h2>{{ item.product_name }}</h2>
-    <p>{{ item.product_price | currency }}</p>
+    <p>Price: {{ item.product_price | currency }}</p>
+    <p >Quantity: {{ item.quantity }}</p> <!-- Added line to display quantity -->
     <button (click)="removeFromCart(item.product_ID)">Remove from Cart</button>
-    <p>{{ item.quantity }}</p>
-    <p>{{ item.product_price * item.quantity | currency }}</p>
+    <p>Subtotal: {{ item.product_price * item.quantity | currency }}</p>
   </div>
   <p>Total: {{ getTotal() | currency }}</p>
-</div>
-<ng-template #noItems>
-  <p>Your cart is empty.</p>
-</ng-template>
+

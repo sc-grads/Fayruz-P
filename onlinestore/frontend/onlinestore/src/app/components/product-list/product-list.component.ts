@@ -7,6 +7,8 @@ interface Product {
   product_price: number;
   product_size: string;
   product_ID: number;
+  product_image: string;
+
 
 
 }
@@ -29,6 +31,7 @@ export class ProductListComponent implements OnInit{
   }
 
   addToCart(productId: number) {
+
     this.http.post('http://localhost:5000/add_to_cart', { product_id: productId, quantity: 1 }).subscribe(response => {
       console.log(response);
     });
