@@ -53,28 +53,6 @@ def get_products():
 
 
 
-
-
-# def add_to_cart(product_ID, quantity):
-#     dbconnect = pyodbc.connect(connection)
-#     cursor = dbconnect.cursor()
-#
-#     # Check if the product already exists in the cart
-#     cursor.execute("SELECT quantity FROM Cart WHERE product_id = ?", (product_ID,))
-#     row = cursor.fetchone()
-#
-#     if row is None:
-#         # Product does not exist in the cart, add it with the specified quantity
-#         cursor.execute("INSERT INTO Cart (product_id, quantity) VALUES (?, ?)", (product_ID, quantity))
-#     else:
-#         # Product already exists in the cart, update the quantity
-#         cursor.execute("UPDATE Cart SET quantity = quantity + ? WHERE product_id = ?", (quantity, product_ID))
-#
-#     cursor.commit()
-#     cursor.close()
-#
-#     return jsonify({'message': 'Item added to cart'})
-
 def add_to_cart(product_ID, quantity):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()

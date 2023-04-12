@@ -8,6 +8,7 @@ interface CartItem {
   product_price: number;
   quantity: number;
   product_ID: number;
+
 }
 
 @Component({
@@ -21,14 +22,27 @@ export class CartComponent implements OnInit {
 
   constructor(private http: HttpClient, private location: Location) { }
 
- ngOnInit(): void {
-    this.http.get<any>('http://localhost:5000/cart').subscribe((items) => {
+//  ngOnInit(): void {
+//     this.http.get<any>('http://localhost:5000/cart').subscribe((items) => {
+//
+//     this.items = items;
+//     console.log(items);
+//   })
+//
+// }
 
+  ngOnInit(): void {
+  this.http.get<any>('http://localhost:5000/cart').subscribe((items) => {
+    // Loop through the retrieved items and construct the image URLs
+    for (const item of items) {
+      item.imageSrc = 'http://localhost:5000/' + item.product_image; // Construct the image URL
+    }
     this.items = items;
     console.log(items);
   })
-
 }
+
+
 
 
 
