@@ -55,12 +55,12 @@
           <div class="card-body">
             <div *ngFor="let item of items" class="mb-3">
               <h2>{{ item.product_name }}</h2>
-              <p>Price: {{ item.product_price | currency }}</p>
+              <p>Price: {{ item.product_price | currency : 'R' }}</p>
               <p>Quantity: {{ item.quantity }}</p>
               <button (click)="removeFromCart(item.product_ID)" class="btn btn-danger">Remove from Cart</button>
-              <p class="mt-3">Subtotal: {{ item.product_price * item.quantity | currency }}</p>
+              <p class="mt-3">Subtotal: {{ item.product_price * item.quantity | currency : 'R' }}</p>
             </div>
-            <p class="fw-bold">Total: {{ getTotal() | currency }}</p>
+            <p class="fw-bold">Total: {{ getTotal() | currency : 'R' }}</p>
           </div>
         </div>
       </div>

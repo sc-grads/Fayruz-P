@@ -11,6 +11,9 @@ import { DashboardComponentComponent } from './components/dashboard-component/da
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { CartComponent } from './components/cart/cart.component';
 
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+
 
 
 
@@ -20,7 +23,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponentComponent },
   { path: 'dashboard', component: DashboardComponentComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'shop', component: ProductListComponent }
+  { path: 'shop', component: ProductListComponent },
+  {path:'adminlogin', component: AdminLoginComponent},
+  {path: 'admindashboard', component: AdminDashboardComponent}
 ];
 
 @NgModule({
@@ -32,6 +37,8 @@ const routes: Routes = [
     DashboardComponentComponent,
     ProductListComponent,
     CartComponent,
+    AdminDashboardComponent,
+    AdminLoginComponent,
 
   ],
   imports: [

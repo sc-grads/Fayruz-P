@@ -58,21 +58,32 @@
   }
 </style>
 
-<h1>Products</h1>
-<div class="row">
-  <div class="col-md-3" *ngFor="let product of products">
-    <div class="card">
-      <img [src]="product.product_image" alt="Product Image" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;">
-      <div class="card-body">
-        <h5 class="card-title">{{ product.product_name }}</h5>
-        <p class="card-text">R{{ product.product_price }}</p>
-        <p class="card-text">{{ product.product_size }}</p>
-        <button (click)="addToCart(product.product_ID)" class="btn btn-primary">Add to Cart</button>
-      </div>
+<!--<h1>Products</h1>-->
+<!--<div class="row">-->
+<!--  <div class="col-md-3" *ngFor="let product of products">-->
+<!--    <div class="card">-->
+<!--      <img [src]="product.product_image" alt="Product Image" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;">-->
+<!--      <div class="card-body">-->
+<!--        <h5 class="card-title">{{ product.product_name }}</h5>-->
+<!--        <p class="card-text">R{{ product.product_price }}</p>-->
+<!--        <p class="card-text">{{ product.product_size }}</p>-->
+<!--        <button (click)="addToCart(product.product_ID)" class="btn btn-primary">Add to Cart</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div class="col-md-3" *ngFor="let product of products">
+  <div class="card">
+    <img [src]="sanitizeUrl(product.product_image)" alt="Product Image" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;">
+    <div class="card-body">
+      <h5 class="card-title">{{ product.product_name }}</h5>
+      <p class="card-text">R{{ product.product_price }}</p>
+      <p class="card-text">{{ product.product_size }}</p>
+      <button (click)="addToCart(product.product_ID)" class="btn btn-primary">Add to Cart</button>
     </div>
   </div>
 </div>
-
 
 
 

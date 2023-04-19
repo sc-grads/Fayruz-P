@@ -1,6 +1,6 @@
 from collections import namedtuple
 import pyodbc
-from flask import Flask, request, session, jsonify
+from flask import Flask, request, jsonify
 
 server = 'DESKTOP-ISR70S1'
 database = 'Spicelet'
@@ -18,30 +18,43 @@ def conn():
     cursor.fetchall()
     return 'Connected'
 
+
 def insert(fname, lname, email, newpassword, number, address):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
     cursor.execute(
-        f"Insert into Customers(first_name,last_name,email_address,password,contact_no,address) VALUES('{fname}', '{lname}', '{email}','{newpassword}','{number}' ,'{address}')")
+        f"Insert into Customers(first_name,last_name,email_address,password,contact_no,address,role) VALUES('{fname}', '{lname}', '{email}','{newpassword}','{number}' ,'{address}','1')")
     cursor.commit()
     cursor.close()
     return 'Added User'
 
 
+# def retrieve(username, newpassword):
+#     dbconnect = pyodbc.connect(connection)
+#     cursor = dbconnect.cursor()
+#     cursor.execute('SELECT * FROM Customers WHERE email_address = ? AND password = ?', (username, newpassword))
+#     row = cursor.fetchone()
+#     if row:
+#
+#         session['customer_ID'] = row.id
+#         return jsonify({'success': True, 'message': 'Logged in'})
+#     else:
+#         return jsonify({'success': False, 'message': 'Invalid username or password'})
+#
+
+
 def retrieve(username, newpassword):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
-    cursor.execute('SELECT * FROM Customers WHERE email_address = ? AND password = ?', (username, newpassword))
-    row = cursor.fetchone()
-    if row:
-
-        session['customer_ID'] = row.id
-        return jsonify({'success': True, 'message': 'Logged in'})
-    else:
-        return jsonify({'success': False, 'message': 'Invalid username or password'})
-
-
-
+    cursor.execute(f"SELECT * FROM Customers WHERE email_address = '{username}' AND password = '{newpassword}' AND role = '1'")
+    row = cursor.fetchall()
+    return row
+def retrieveadmin(username, newpassword):
+    dbconnect = pyodbc.connect(connection)
+    cursor = dbconnect.cursor()
+    cursor.execute(f"SELECT * FROM Admin WHERE email_address = '{username}' AND password = '{newpassword}' AND role = '2'")
+    row = cursor.fetchall()
+    return row
 
 def get_products():
     dbconnect = pyodbc.connect(connection)
@@ -50,7 +63,6 @@ def get_products():
     rows = cursor.fetchall()
     Product = namedtuple('Product', [column[0] for column in cursor.description])
     return [dict(Product._make(row)._asdict()) for row in rows]
-
 
 
 def add_to_cart(product_ID, quantity):
@@ -74,7 +86,6 @@ def add_to_cart(product_ID, quantity):
     return jsonify({'message': 'Item added to cart'})
 
 
-
 def get_cart():
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
@@ -86,7 +97,6 @@ def get_cart():
     items_dict = [dict(Items._make(row)._asdict()) for row in cart_items]
     cursor.close()
     return items_dict
-
 
 
 def remove_from_cart(product_ID):
@@ -105,8 +115,3 @@ def remove_from_cart(product_ID):
         return {'status': 'success', 'message': 'Item removed from cart'}
     else:
         return {'status': 'error', 'message': 'Item not found in cart'}
-
-
-
-
-

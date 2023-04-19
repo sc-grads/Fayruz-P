@@ -3,7 +3,9 @@
 
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="javascript:void(0)">Logo</a>
+        <a class="navbar-brand" href="javascript:void(0)">
+      <img class="logo-image" src=".\assets\product_images\logo.png" alt="Logo">
+        </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -43,6 +45,12 @@
     margin-right: 0.5rem;
   }
 </style>
+<style>
+  .logo-image {
+    width: 80px; /* specify the desired width */
+    height: 80px; /* specify the desired height */
+  }
+</style>
 
 <section class="vh-100" style="background-color: #9A616D;">
   <div class="container py-5 h-100">
@@ -64,12 +72,12 @@
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
 
                   <div class="form-outline mb-4">
-                    <input type="email" [(ngModel)]="username" id="email" placeholder="Email" class="form-control form-control-lg" />
+                    <input type="email" [(ngModel)]="username" id="email" name="email" placeholder="Email" class="form-control form-control-lg" />
                     <label class="form-label" for="email"></label>
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="password" [(ngModel)]="password" id="pass" placeholder="Password" class="form-control form-control-lg" />
+                    <input type="password" [(ngModel)]="password" id="pass"name="password" placeholder="Password" class="form-control form-control-lg" />
                     <label class="form-label" for="pass"></label>
                   </div>
 
