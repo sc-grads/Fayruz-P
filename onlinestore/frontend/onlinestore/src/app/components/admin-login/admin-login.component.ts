@@ -1,36 +1,32 @@
 import { Component } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
+
 @Component({
-  selector: 'app-login-component',
-  templateUrl: './login-component.component.html',
-  styleUrls: ['./login-component.component.css']
+  selector: 'app-admin-login',
+  templateUrl: './admin-login.component.html',
+  styleUrls: ['./admin-login.component.css']
 })
-export class LoginComponentComponent {
+export class AdminLoginComponent {
 
-constructor(private http:HttpClient, private router: Router){}
+  constructor(private http:HttpClient, private router: Router){}
 
-username: string = '';
-password: string = '';
+  adminusername: string = ''
+  adminpassword: string = ''
 
-navigatetoDashboard(){
-  this.router.navigate(['/dashboard']).then(r => console.debug("redirected"));
-}
-
-
-onlogin() {
-      console.debug(`${this.username} ${this.password}`);
-  this.http.post('http://localhost:5000/login',
-    {username:this.username, password:this.password}).subscribe(
+  onadminlogin() {
+      console.debug(`${this.adminusername} ${this.adminpassword}`);
+  this.http.post('http://localhost:5000/adminlogin',
+    {username:this.adminusername, password:this.adminpassword}).subscribe(
         (response: any) => {
-          console.debug(`${this.username} ${this.password}${response}`);
+          console.debug(`${this.adminusername} ${this.adminpassword}${response}`);
           console.debug(response);
 
           // Check if registration was successful based on response
           if (response && response['status'] === 'success') {
             // Registration was successful, show success alert
             alert('Login successful!');
-            this.navigatetoDashboard();
+           // this.navigatetoDashboard();
           } else {
             // Registration failed, show error alert with error message from backend
             alert('Login failed. ' + response['message']);
@@ -43,5 +39,4 @@ onlogin() {
         }
       );
   }
-
 }

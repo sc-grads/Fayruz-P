@@ -1,35 +1,57 @@
 import json
 from collections import namedtuple
-from flask import Flask, request, redirect, jsonify
+from flask import Flask, request, jsonify
 import database_manager as dbm
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app, origins=['http://localhost:4200'])
+app.secret_key = 'abcd'
 
-
-# app.config['SESSION_TYPE'] = 'filesystem'
-# app.config['SECRET_KEY'] = 'AbY&FaY1008'
-# Session(app)
-# @app.route('/set-customer-profile', methods=['POST'])
-# def set_customer_profile():
-#     data = request.get_json()
-#     session['customer_profile'] = data
-#     return 'Customer profile set.'
-#
-#
-# @app.route('/get-customer-profile', methods=['GET'])
-# def get_customer_profile():
-#     return session.get('customer_profile', {})
+local_session = {}
 
 
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.json.get('username')
-    password = request.json.get('password')
+    userdata = request.get_json()
+    username = userdata['username']
+    password = userdata['password']
     dbm.retrieve(username, password)
-    return {'Status': 'User Logged in'}
+    local_session['user'] = username
+    local_session['role'] = 'customer'
+    print(local_session)
+    if not username or not password  :
+        return jsonify({'status': 'error', 'message': 'Please fill in all required fields'})
 
+    dbm.retrieve(username,password)
+    if dbm.retrieve(username,password):
+        return jsonify({'status': 'success', 'message': 'Login Successful'})
+    else:
+        return jsonify({'status': 'error', 'message': 'Login Unsuccessful'})
+
+
+    return jsonify({'status': 'User Logged in as Customer'}), 200
+
+@app.route('/adminlogin', methods=['POST'])
+def adminlogin():
+    admindata = request.get_json()
+    adminusername = admindata['username']
+    adminpassword = admindata['password']
+    dbm.retrieveadmin(adminusername, adminpassword)
+    local_session['user'] = adminusername
+    local_session['role'] = 'admin'
+    print(local_session)
+    if not adminusername or not adminpassword  :
+        return jsonify({'status': 'error', 'message': 'Please fill in all required fields'})
+
+    dbm.retrieveadmin(adminusername,adminpassword)
+    if dbm.retrieveadmin(adminusername,adminpassword):
+        return jsonify({'status': 'success', 'message': 'Login Successful'})
+    else:
+        return jsonify({'status': 'error', 'message': 'Login Unsuccessful'})
+
+
+    return jsonify({'status': 'User Logged in as Customer'}), 200
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -40,21 +62,35 @@ def register():
     password = registerinfo.get('password')
     number = registerinfo.get('number')
     address = registerinfo.get('address')
+
+    # Validate email and password fields
+    if not fname or not lname or not email or not password or not number or not address:
+        return jsonify({'status': 'error', 'message': 'Please fill in all required fields'})
+
     dbm.insert(fname, lname, email, password, number, address)
-    return {'200': 'User Registered and Redirected'}
+    if dbm.insert(fname, lname, email, password, number, address):
+        return jsonify({'status': 'success', 'message': 'Registration successful'})
+    else:
+        return jsonify({'status': 'error', 'message': 'Registration failed'})
+
+    return jsonify({'status': 'User Registered and Redirected'}), 200
+
+
 
 
 @app.route('/dashboard')
 def dashboard():
-    return {'Status': 'Success'}
+    return jsonify({'status': 'Success'}), 200
 
-
+@app.route('/admindashboard')
+def admin_dashboard():
+    return jsonify({'status': 'Success'}), 200
 @app.route('/cart')
 def cart_retrieve():
     items = dbm.get_cart()
-    return jsonify(items)
-
-
+    user = local_session.get('user')
+    print(f"Session created for user {user}")
+    return jsonify(items), 200
 
 @app.route('/add_to_cart', methods=['POST'])
 def cart_add():
@@ -62,31 +98,25 @@ def cart_add():
     product_id = data.get('product_id')
     quantity = data.get('quantity')
     dbm.add_to_cart(product_id, quantity)
-    return {'200': 'Added to cart'}
+    return jsonify({'status': 'Added to cart'}), 200
 
 @app.route('/remove_from_cart/<int:product_id>', methods=['DELETE'])
 def cart_remove(product_id):
     dbm.remove_from_cart(product_id)
     if len(dbm.get_cart()) > 0:
         dbm.get_cart()
-        return {'200': 'Cart refreshed'}
+        return jsonify({'status': 'Cart refreshed'}), 200
     else:
-        return {'200': 'Removed from cart'}
+        return jsonify({'status': 'Removed from cart'}), 200
 
 @app.route('/favicon.ico')
 def favicon():
-    return ''
-
-
+    return '', 200
 
 @app.route('/shop', methods=['GET'])
 def products_retrieve():
     products = dbm.get_products()
-    return products
-
-
-
-
+    return jsonify(products), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
