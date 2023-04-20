@@ -17,14 +17,16 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="javascript:void(0)">Logo</a>
+        <a class="navbar-brand" href="javascript:void(0)">
+      <img class="logo-image" src=".\assets\product_images\logo.png" alt="Logo">
+        </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="mynavbar">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" href="http://localhost:4200/">Home</a>
+          <a class="nav-link" href="http://localhost:4200/">Shop</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="http://localhost:4200/login">Login</a>
@@ -32,9 +34,7 @@
         <li class="nav-item">
           <a class="nav-link" href="http://localhost:4200/register">Sign Up</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="http://localhost:4200/shop">Shop</a>
-          </li>
+
       </ul>
       <ul class="navbar-nav ms-auto"> <!-- Add ms-auto class to align items to the right -->
         <li class="nav-item">
@@ -57,33 +57,28 @@
     margin-right: 0.5rem;
   }
 </style>
+<style>
+  .logo-image {
+    width: 80px; /* specify the desired width */
+    height: 80px; /* specify the desired height */
+  }
+</style>
 
-<!--<h1>Products</h1>-->
-<!--<div class="row">-->
-<!--  <div class="col-md-3" *ngFor="let product of products">-->
-<!--    <div class="card">-->
-<!--      <img [src]="product.product_image" alt="Product Image" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;">-->
-<!--      <div class="card-body">-->
-<!--        <h5 class="card-title">{{ product.product_name }}</h5>-->
-<!--        <p class="card-text">R{{ product.product_price }}</p>-->
-<!--        <p class="card-text">{{ product.product_size }}</p>-->
-<!--        <button (click)="addToCart(product.product_ID)" class="btn btn-primary">Add to Cart</button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
-<div class="col-md-3" *ngFor="let product of products">
-  <div class="card">
-    <img [src]="sanitizeUrl(product.product_image)" alt="Product Image" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;">
-    <div class="card-body">
-      <h5 class="card-title">{{ product.product_name }}</h5>
-      <p class="card-text">R{{ product.product_price }}</p>
-      <p class="card-text">{{ product.product_size }}</p>
-      <button (click)="addToCart(product.product_ID)" class="btn btn-primary">Add to Cart</button>
+<h1>Products</h1>
+<div class="row">
+  <div class="col-md-3" *ngFor="let product of products">
+    <div class="card">
+      <img [src]="product.product_image" alt="Product Image" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;">
+      <div class="card-body">
+        <h5 class="card-title">{{ product.product_name }}</h5>
+        <p class="card-text">R{{ product.product_price }}</p>
+        <p class="card-text">{{ product.product_size }}</p>
+        <button (click)="addToCart(product.product_ID)" class="btn btn-primary">Add to Cart</button>
+      </div>
     </div>
   </div>
 </div>
+
 
 
 

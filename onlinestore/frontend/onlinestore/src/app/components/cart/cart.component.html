@@ -10,41 +10,54 @@
 
 <body>
 
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="javascript:void(0)">Logo</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="mynavbar">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="http://localhost:4200/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="http://localhost:4200/login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="http://localhost:4200/register">Sign Up</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="http://localhost:4200/shop">Shop</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/cart">
-              <i class="bi bi-cart"></i>
-            </a>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="text" placeholder="Search">
-          <button class="btn btn-primary" type="button">Search</button>
-        </form>
-      </div>
+ <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <div class="container-fluid">
+        <a class="navbar-brand" href="javascript:void(0)">
+      <img class="logo-image" src=".\assets\product_images\logo.png" alt="Logo">
+        </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mynavbar">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:4200/">Shop</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:4200/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:4200/register">Sign Up</a>
+        </li>
+
+      </ul>
+      <ul class="navbar-nav ms-auto"> <!-- Add ms-auto class to align items to the right -->
+        <li class="nav-item">
+          <a class="nav-link" href="/cart">
+            <i class="bi bi-cart"></i>
+          </a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="text" placeholder="Search">
+        <button class="btn btn-primary" type="button">Search</button>
+      </form>
     </div>
-  </nav>
+  </div>
+</nav>
+
+<style>
+  .navbar-nav .bi-cart {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
+</style>
+<style>
+  .logo-image {
+    width: 80px; /* specify the desired width */
+    height: 80px; /* specify the desired height */
+  }
+</style>
 
   <div class="container mt-5">
     <h1>Cart</h1>

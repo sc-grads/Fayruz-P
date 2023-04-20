@@ -1,9 +1,14 @@
+import binascii
+import os
 from collections import namedtuple
 import pyodbc
 from flask import Flask, request, jsonify
+import bcrypt
+from bcrypt import hashpw, gensalt, checkpw as safe_checkpw
+
 
 server = 'DESKTOP-ISR70S1'
-database = 'Spicelet'
+database = 'SPICELET_STORE'
 username = 'ecommercedbuser'
 password = 'ecommerceDBuser1!'
 driver = 'ODBC Driver 17 for SQL Server'
@@ -19,47 +24,53 @@ def conn():
     return 'Connected'
 
 
+
+
+#
 def insert(fname, lname, email, newpassword, number, address):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
+    hashed_password = bcrypt.hashpw(newpassword.encode(),bcrypt.gensalt()).decode()
     cursor.execute(
-        f"Insert into Customers(first_name,last_name,email_address,password,contact_no,address,role) VALUES('{fname}', '{lname}', '{email}','{newpassword}','{number}' ,'{address}','1')")
+        f"Insert into Customers(first_name,last_name,email_address,password,contact_no,address,role) VALUES('{fname}', '{lname}', '{email}','{hashed_password}','{number}' ,'{address}','1')")
     cursor.commit()
     cursor.close()
     return 'Added User'
-
-
-# def retrieve(username, newpassword):
-#     dbconnect = pyodbc.connect(connection)
-#     cursor = dbconnect.cursor()
-#     cursor.execute('SELECT * FROM Customers WHERE email_address = ? AND password = ?', (username, newpassword))
-#     row = cursor.fetchone()
-#     if row:
-#
-#         session['customer_ID'] = row.id
-#         return jsonify({'success': True, 'message': 'Logged in'})
-#     else:
-#         return jsonify({'success': False, 'message': 'Invalid username or password'})
-#
-
-
+def check_email_exists(email):
+    dbconnect = pyodbc.connect(connection)
+    cursor = dbconnect.cursor()
+    cursor.execute(f"SELECT * FROM Customers WHERE email_address='{email}'")
+    row = cursor.fetchone()
+    cursor.close()
+    return row
 def retrieve(username, newpassword):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
-    cursor.execute(f"SELECT * FROM Customers WHERE email_address = '{username}' AND password = '{newpassword}' AND role = '1'")
-    row = cursor.fetchall()
-    return row
+    cursor.execute(f"SELECT password FROM Customers WHERE email_address = '{username}'")
+    row = cursor.fetchone()
+    hashed_password = row[0]
+
+    if bcrypt.checkpw(newpassword.encode('utf-8'),hashed_password.encode('utf-8')):
+        return True
+    else:
+        return False
+
+
+
+
 def retrieveadmin(username, newpassword):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
-    cursor.execute(f"SELECT * FROM Admin WHERE email_address = '{username}' AND password = '{newpassword}' AND role = '2'")
+    cursor.execute(
+        f"SELECT * FROM Admin WHERE email_address = '{username}' AND password = '{newpassword}' AND role = '2'")
     row = cursor.fetchall()
     return row
+
 
 def get_products():
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
-    cursor.execute("SELECT product_ID, product_name,product_image, product_price, product_size FROM Products")
+    cursor.execute("SELECT product_ID, product_name,product_image, product_price, product_weight FROM Products")
     rows = cursor.fetchall()
     Product = namedtuple('Product', [column[0] for column in cursor.description])
     return [dict(Product._make(row)._asdict()) for row in rows]

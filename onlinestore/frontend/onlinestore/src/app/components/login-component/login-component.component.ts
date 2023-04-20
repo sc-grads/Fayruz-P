@@ -10,6 +10,7 @@ export class LoginComponentComponent {
 
 constructor(private http:HttpClient, private router: Router){}
 
+isLoggedIn: boolean = false;
 username: string = '';
 password: string = '';
 
@@ -31,6 +32,7 @@ onlogin() {
             // Registration was successful, show success alert
             alert('Login successful!');
             this.navigatetoDashboard();
+            this.isLoggedIn = true;
           } else {
             // Registration failed, show error alert with error message from backend
             alert('Login failed. ' + response['message']);
@@ -43,5 +45,21 @@ onlogin() {
         }
       );
   }
+
+ onlogout() {
+  this.http.post('http://localhost:5000/logout', {}).subscribe(
+    (response: any) => {
+      console.log(response);
+      alert('Logout successful!');
+      this.router.navigate(['/login']).then(r => console.debug("redirected"));
+       this.isLoggedIn = false;
+    },
+    error => {
+      console.error(error);
+      alert('An error occurred. Please try again later.');
+    }
+  );
+}
+
 
 }
