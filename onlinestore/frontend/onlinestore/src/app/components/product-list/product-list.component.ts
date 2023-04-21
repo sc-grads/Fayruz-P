@@ -8,7 +8,7 @@ interface Product {
   product_price: number;
   product_size: string;
   product_ID: number;
-  product_image: any;
+  product_image: string;
 }
 
 @Component({
@@ -21,25 +21,11 @@ export class ProductListComponent implements OnInit {
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
-  // ngOnInit(): void {
-  //   this.http.get<any[]>('http://localhost:5000/shop').subscribe(data => {
-  //     this.products = data;
-  //   });
-  // }
-
   ngOnInit(): void {
-  this.http.get<any[]>('http://localhost:5000/shop').subscribe(data => {
-    this.products = data;
-    this.products.forEach(product => {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        product.product_image = e.target.result;
-      };
-      reader.readAsDataURL(new Blob([product.product_image]));
+    this.http.get<any[]>('http://localhost:5000/shop').subscribe(data => {
+      this.products = data;
     });
-  });
-}
-
+  }
 
   addToCart(productId: number) {
     this.http.post('http://localhost:5000/add_to_cart', { product_id: productId, quantity: 1 }).subscribe(response => {
