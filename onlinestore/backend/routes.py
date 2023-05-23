@@ -3,12 +3,42 @@ from collections import namedtuple
 from flask import Flask, request, jsonify
 import database_manager as dbm
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 CORS(app, origins=['http://localhost:4200'])
 app.secret_key = 'abcd'
 
 local_session = {}
+
+
+@app.route('/product', methods=['POST'])
+def add_product():
+
+    product_data = request.get_json()
+
+    print('Product Data:', product_data)  # Add this line to check the product data received from the client
+    product_name = product_data['product_name']
+    product_price = product_data['product_price']
+    product_weight = product_data['product_weight']
+    product_image = product_data['product_image']
+
+    # Add any additional fields as required
+
+    # Perform validation on the product data
+
+    # Insert the product into the database
+    success = dbm.insert_product(product_name, product_price, product_weight, product_image)
+
+    if success:
+        return jsonify({'status': 'success', 'message': 'Product added successfully'}), 200
+    else:
+        return jsonify({'status': 'error', 'message': 'Failed to add product. Check the database connection and verify the data.'}), 500
+
+@app.route('/product/<int:product_id>', methods=['DELETE'])
+def delete_product_route(product_id):
+    dbm.delete_product(product_id)
+    return jsonify({'message': 'Product deleted successfully'}), 200
 
 
 
@@ -97,31 +127,51 @@ def admin_dashboard():
     return jsonify({'status': 'Success'}), 200
 
 
+# @app.route('/cart')
+# def cart_retrieve():
+#     items = dbm.get_cart()
+#     user = local_session.get('user')
+#     print(f"Session created for user {user}")
+#     return jsonify(items), 200
+
+
+
 @app.route('/cart')
 def cart_retrieve():
-    items = dbm.get_cart()
     user = local_session.get('user')
-    print(f"Session created for user {user}")
-    return jsonify(items), 200
-
+    if user:
+        items = dbm.get_cart(user)
+        print(f"Session created for user {user}")
+        return jsonify(items), 200
+    else:
+        return jsonify({'status': 'error', 'message': 'Please log in to access the cart'})
 
 @app.route('/add_to_cart', methods=['POST'])
 def cart_add():
-    data = request.json
-    product_id = data.get('product_id')
-    quantity = data.get('quantity')
-    dbm.add_to_cart(product_id, quantity)
-    return jsonify({'status': 'Added to cart'}), 200
-
+    user = local_session.get('user')
+    if user:
+        data = request.json
+        product_id = data.get('product_id')
+        quantity = data.get('quantity')
+        dbm.add_to_cart(product_id, quantity, user)
+        return jsonify({'status': 'success', 'message': 'Item added to cart'}), 200
+    else:
+        return jsonify({'status': 'error', 'message': 'Please log in to add items to the cart'})
 
 @app.route('/remove_from_cart/<int:product_id>', methods=['DELETE'])
 def cart_remove(product_id):
-    dbm.remove_from_cart(product_id)
-    if len(dbm.get_cart()) > 0:
-        dbm.get_cart()
-        return jsonify({'status': 'Cart refreshed'}), 200
+    user = local_session.get('user')
+    if user:
+        dbm.remove_from_cart(user, product_id)
+        if len(dbm.get_cart(user)) > 0:
+            return jsonify({'status': 'success', 'message': 'Cart refreshed'}), 200
+        else:
+            return jsonify({'status': 'success', 'message': 'Item removed from cart'}), 200
     else:
-        return jsonify({'status': 'Removed from cart'}), 200
+        return jsonify({'status': 'error', 'message': 'Please log in to remove items from the cart'})
+
+
+
 
 
 @app.route('/favicon.ico')

@@ -24,9 +24,40 @@ def conn():
     return 'Connected'
 
 
+def insert_product(product_name, product_price, product_weight, product_image):
+    dbconnect = pyodbc.connect(connection)
+    cursor = dbconnect.cursor()
+
+    try:
+        # Insert the product into the database
+        cursor.execute(
+            "INSERT INTO Products (product_name, product_price, product_weight, product_image) "
+            "VALUES (?, ?, ?, ?)",
+            (product_name, product_price, product_weight, product_image)
+        )
+
+        dbconnect.commit()
+        return True
+    except Exception as e:
+        # Handle any exceptions that occur during the insertion
+        print(f"Error inserting product into database: {str(e)}")
+        dbconnect.rollback()
+        return False
+    finally:
+        cursor.close()
 
 
-#
+def delete_product(product_id):
+
+    dbconnect = pyodbc.connect(connection)
+    cursor = dbconnect.cursor()
+
+    cursor.execute(f"DELETE FROM Products WHERE product_ID = {product_id}")
+    cursor.commit()
+    cursor.close()
+
+
+
 def insert(fname, lname, email, newpassword, number, address):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
@@ -76,33 +107,69 @@ def get_products():
     return [dict(Product._make(row)._asdict()) for row in rows]
 
 
-def add_to_cart(product_ID, quantity):
+# def add_to_cart(product_ID, quantity):
+#     dbconnect = pyodbc.connect(connection)
+#     cursor = dbconnect.cursor()
+#
+#     # Check if the product already exists in the cart
+#     cursor.execute("SELECT quantity FROM Cart WHERE product_id = ?", (product_ID,))
+#     row = cursor.fetchone()
+#
+#     if row is None:
+#         # Product does not exist in the cart, add it with the specified quantity
+#         cursor.execute("INSERT INTO Cart (product_id, quantity) VALUES (?, ?)", (product_ID, quantity))
+#     else:
+#         # Product already exists in the cart, update the quantity
+#         cursor.execute("UPDATE Cart SET quantity = quantity + ? WHERE product_id = ?", (quantity, product_ID))
+#
+#     cursor.commit()
+#     cursor.close()
+#
+#     return jsonify({'message': 'Item added to cart'})
+def add_to_cart(product_ID, quantity, customer_email):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
 
-    # Check if the product already exists in the cart
-    cursor.execute("SELECT quantity FROM Cart WHERE product_id = ?", (product_ID,))
+    # Retrieve the customer ID based on the email
+    cursor.execute("SELECT customer_ID FROM Customers WHERE email_address = ?", (customer_email,))
     row = cursor.fetchone()
+    if row:
+        customer_id = row[0]
 
-    if row is None:
-        # Product does not exist in the cart, add it with the specified quantity
-        cursor.execute("INSERT INTO Cart (product_id, quantity) VALUES (?, ?)", (product_ID, quantity))
+        # Check if the product already exists in the cart for the customer
+        cursor.execute("SELECT quantity FROM Cart WHERE customer_ID = ? AND product_id = ?", (customer_id, product_ID))
+        row = cursor.fetchone()
+
+        if row is None:
+            # Product does not exist in the cart, add it with the specified quantity
+            cursor.execute("INSERT INTO Cart (customer_ID, product_id, quantity) VALUES (?, ?, ?)", (customer_id, product_ID, quantity))
+        else:
+            # Product already exists in the cart, update the quantity
+            new_quantity = row.quantity + quantity
+            cursor.execute("UPDATE Cart SET quantity = ? WHERE customer_ID = ? AND product_id = ?", (new_quantity, customer_id, product_ID))
+
+        cursor.commit()
+        cursor.close()
+
+        return {'status': 'success', 'message': 'Item added to cart'}
     else:
-        # Product already exists in the cart, update the quantity
-        cursor.execute("UPDATE Cart SET quantity = quantity + ? WHERE product_id = ?", (quantity, product_ID))
-
-    cursor.commit()
-    cursor.close()
-
-    return jsonify({'message': 'Item added to cart'})
+        return {'status': 'error', 'message': 'Customer not found'}
 
 
-def get_cart():
+
+
+
+def get_cart(customer_email):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
-    cursor.execute(
-        "SELECT Products.product_name, Products.product_price, SUM(Cart.quantity) as quantity, Products.product_ID FROM Cart INNER JOIN Products ON "
-        "Cart.product_ID=Products.product_ID GROUP BY Products.product_name, Products.product_price, Products.product_ID")
+    cursor.execute("""
+        SELECT Products.product_name, Products.product_price, SUM(Cart.quantity) as quantity, Products.product_ID
+        FROM Cart
+        INNER JOIN Products ON Cart.product_ID = Products.product_ID
+        INNER JOIN Customers ON Cart.customer_ID = Customers.customer_ID
+        WHERE Customers.email_address = ?
+        GROUP BY Products.product_name, Products.product_price, Products.product_ID
+        """, (customer_email,))
     cart_items = cursor.fetchall()
     Items = namedtuple('CartItem', [column[0] for column in cursor.description])
     items_dict = [dict(Items._make(row)._asdict()) for row in cart_items]
@@ -110,17 +177,18 @@ def get_cart():
     return items_dict
 
 
-def remove_from_cart(product_ID):
+
+def remove_from_cart(customer_id, product_ID):
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
-    cursor.execute("SELECT quantity FROM Cart WHERE product_ID=?", (product_ID,))
+    cursor.execute("SELECT quantity FROM Cart WHERE customer_ID = ? AND product_ID = ?", (customer_id, product_ID))
     row = cursor.fetchone()
     if row:
         if row[0] > 1:
             new_quantity = row[0] - 1
-            cursor.execute("UPDATE Cart SET quantity=? WHERE product_ID=?", (new_quantity, product_ID))
+            cursor.execute("UPDATE Cart SET quantity = ? WHERE customer_ID = ? AND product_ID = ?", (new_quantity, customer_id, product_ID))
         else:
-            cursor.execute("DELETE FROM Cart WHERE product_ID=?", (product_ID,))
+            cursor.execute("DELETE FROM Cart WHERE customer_ID = ? AND product_ID = ?", (customer_id, product_ID))
         dbconnect.commit()
         cursor.close()
         return {'status': 'success', 'message': 'Item removed from cart'}

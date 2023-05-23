@@ -27,11 +27,31 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  // addToCart(productId: number) {
+  //   this.http.post('http://localhost:5000/add_to_cart', { product_id: productId, quantity: 1 }).subscribe(response => {
+  //     console.log(response);
+  //   });
+  // }
   addToCart(productId: number) {
-    this.http.post('http://localhost:5000/add_to_cart', { product_id: productId, quantity: 1 }).subscribe(response => {
+  this.http.post('http://localhost:5000/add_to_cart', { product_id: productId, quantity: 1 }).subscribe(
+    (response: any) => {
       console.log(response);
-    });
-  }
+      // Check if adding to cart was successful based on response
+      if (response && response['status'] === 'success') {
+        // Adding to cart was successful, show success alert
+        alert('Item added to cart!');
+      } else {
+        // Adding to cart failed, show error alert with error message from backend
+        alert('Failed to add item to cart. ' + response['message']);
+      }
+    },
+    (error) => {
+      console.error(error);
+      alert('An error occurred while adding item to cart. Please try again later.');
+    }
+  );
+}
+
 
   sanitizeUrl(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
