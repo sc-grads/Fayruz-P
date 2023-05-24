@@ -27,6 +27,31 @@
   </form>
 </div>
 
+<!-- Edit Product Form -->
+<div *ngIf="showEditProductForm && selectedProduct">
+  <h2>Edit Product</h2>
+  <form (submit)="submitEditedProduct()">
+    <!-- Add input fields for product details -->
+    <div class="form-group">
+      <label for="editProductName">Name</label>
+      <input type="text" class="form-control" id="editProductName" [(ngModel)]="selectedProduct.product_name" name="editProductName" required>
+    </div>
+    <div class="form-group">
+      <label for="editProductPrice">Price</label>
+      <input type="number" class="form-control" id="editProductPrice" [(ngModel)]="selectedProduct.product_price" name="editProductPrice" required>
+    </div>
+    <div class="form-group">
+      <label for="editProductSize">Size</label>
+      <input type="text" class="form-control" id="editProductSize" [(ngModel)]="selectedProduct.product_weight" name="editProductSize" required>
+    </div>
+    <div class="form-group">
+      <label for="editProductImage">Image URL</label>
+      <input type="text" class="form-control" id="editProductImage" [(ngModel)]="selectedProduct.product_image" name="editProductImage" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+</div>
+
 <!-- Product list -->
 <div class="row">
   <div class="col-md-3" *ngFor="let product of products">
@@ -38,9 +63,7 @@
         <p class="card-text">Weight: {{ product.product_weight }}</p>
         <button (click)="editProduct(product.product_ID)" class="btn btn-primary">Edit Product</button>
         <button (click)="deleteProduct(product.product_ID)" class="btn btn-primary">Delete Product</button>
-
       </div>
     </div>
   </div>
 </div>
-

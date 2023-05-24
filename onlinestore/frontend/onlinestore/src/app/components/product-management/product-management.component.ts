@@ -31,6 +31,8 @@ export class ProductManagementComponent implements OnInit {
     product_image: ''
   };
   showAddProductForm: boolean = false;
+  showEditProductForm: boolean = false;
+  selectedProduct: Product | null = null;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -92,8 +94,38 @@ export class ProductManagementComponent implements OnInit {
   }
 
   editProduct(productId: number): void {
-    // Add your code to show the edit product form or redirect to a new page for editing a product
-    // Example: this.router.navigate(['/product/edit', productId]);
+    const product = this.products.find(p => p.product_ID === productId);
+    if (product) {
+      this.selectedProduct = { ...product }; // Create a copy of the product object
+      this.showEditProductForm = true;
+    }
+  }
+
+  submitEditedProduct(): void {
+    if (this.selectedProduct) {
+      this.http.put(`http://localhost:5000/product/${this.selectedProduct.product_ID}`, this.selectedProduct)
+        .subscribe(
+          (response: any) => {
+            console.log('Response:', response);
+            if (response.status === 'success') {
+              alert('Product updated successfully');
+              this.showEditProductForm = false;
+              this.clearSelectedProduct();
+              this.loadProducts();
+            } else {
+              alert('Failed to update product. Check the database connection and verify the data.');
+            }
+          },
+          error => {
+            console.error(error);
+            alert('An error occurred while updating the product. Please try again later.');
+          }
+        );
+    }
+  }
+
+  clearSelectedProduct(): void {
+    this.selectedProduct = null;
   }
 
   clearNewProductFields(): void {

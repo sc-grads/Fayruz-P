@@ -57,6 +57,27 @@ def delete_product(product_id):
     cursor.close()
 
 
+def edit_product(product_id, product_name, product_price, product_weight, product_image):
+    dbconnect = pyodbc.connect(connection)
+    cursor = dbconnect.cursor()
+
+    try:
+        # Update the product in the database
+        cursor.execute(
+            "UPDATE Products SET product_name = ?, product_price = ?, product_weight = ?, product_image = ? "
+            "WHERE product_ID = ?",
+            (product_name, product_price, product_weight, product_image, product_id)
+        )
+
+        dbconnect.commit()
+        return True
+    except Exception as e:
+        # Handle any exceptions that occur during the update
+        print(f"Error updating product in the database: {str(e)}")
+        dbconnect.rollback()
+        return False
+    finally:
+        cursor.close()
 
 def insert(fname, lname, email, newpassword, number, address):
     dbconnect = pyodbc.connect(connection)

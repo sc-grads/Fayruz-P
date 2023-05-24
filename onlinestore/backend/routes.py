@@ -11,6 +11,23 @@ app.secret_key = 'abcd'
 
 local_session = {}
 
+@app.route('/product/<int:product_id>', methods=['PUT'])
+def edit_product(product_id):
+    product_data = request.get_json()
+
+    # Extract the updated product information from the request data
+    product_name = product_data['product_name']
+    product_price = product_data['product_price']
+    product_weight = product_data['product_weight']
+    product_image = product_data['product_image']
+
+    # Update the product in the database
+    success = dbm.edit_product(product_id, product_name, product_price, product_weight, product_image)
+
+    if success:
+        return jsonify({'status': 'success', 'message': 'Product updated successfully'}), 200
+    else:
+        return jsonify({'status': 'error', 'message': 'Failed to update product. Check the database connection and verify the data.'}), 500
 
 @app.route('/product', methods=['POST'])
 def add_product():
