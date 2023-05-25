@@ -11,6 +11,10 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { CartComponent } from './components/cart/cart.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+import { OrderManagementComponent } from './components/order-management/order-management.component';
+import { ProductManagementComponent } from './components/product-management/product-management.component';
+
+
 
 const routes: Routes = [
   { path: '', component: ProductListComponent },
@@ -19,7 +23,10 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponentComponent },
   { path: 'cart', component: CartComponent },
   { path: 'adminlogin', component: AdminLoginComponent },
-  { path: 'admindashboard', component: AdminDashboardComponent }
+  { path: 'admindashboard', component: AdminDashboardComponent },
+  { path: 'order-management', component: OrderManagementComponent },
+  { path: 'product-management', component: ProductManagementComponent },
+
 ];
 
 @NgModule({
@@ -32,6 +39,10 @@ const routes: Routes = [
     CartComponent,
     AdminDashboardComponent,
     AdminLoginComponent,
+    OrderManagementComponent,
+    ProductManagementComponent,
+
+
   ],
   imports: [
     BrowserModule,
