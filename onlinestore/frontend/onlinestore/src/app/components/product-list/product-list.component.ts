@@ -18,7 +18,7 @@ interface Product {
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
-
+  isLoggedIn: boolean = false; // New property to track login status
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
@@ -27,11 +27,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  // addToCart(productId: number) {
-  //   this.http.post('http://localhost:5000/add_to_cart', { product_id: productId, quantity: 1 }).subscribe(response => {
-  //     console.log(response);
-  //   });
-  // }
+
   addToCart(productId: number) {
   this.http.post('http://localhost:5000/add_to_cart', { product_id: productId, quantity: 1 }).subscribe(
     (response: any) => {
@@ -52,6 +48,17 @@ export class ProductListComponent implements OnInit {
   );
 }
 
+checkSessionStatus(): void {
+  this.http.get<boolean>('http://localhost:5000/check_session_status').subscribe(
+    (isLoggedIn: boolean) => {
+      this.isLoggedIn = isLoggedIn;
+    },
+    (error) => {
+      console.error(error);
+      // Handle the error appropriately, such as showing an error message to the user
+    }
+  );
+}
 
   sanitizeUrl(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);

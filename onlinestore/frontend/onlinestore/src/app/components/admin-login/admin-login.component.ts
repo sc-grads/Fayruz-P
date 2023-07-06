@@ -26,7 +26,7 @@ export class AdminLoginComponent {
           if (response && response['status'] === 'success') {
             // Registration was successful, show success alert
             alert('Login successful!');
-           // this.navigatetoDashboard();
+           this.navigatetoDashboard();
           } else {
             // Registration failed, show error alert with error message from backend
             alert('Login failed. ' + response['message']);
@@ -39,4 +39,8 @@ export class AdminLoginComponent {
         }
       );
   }
+
+navigatetoDashboard(){
+  this.router.navigate(['/admindashboard']).then(r => console.debug("redirected"));
+}
 }

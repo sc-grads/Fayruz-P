@@ -33,45 +33,89 @@ export class ProductManagementComponent implements OnInit {
   showAddProductForm: boolean = false;
   showEditProductForm: boolean = false;
   selectedProduct: Product | null = null;
+  isAdminLoggedIn: boolean = false;
+
 
   constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
+    this.checkAdminLoginStatus();
     this.loadProducts();
   }
 
-  loadProducts(): void {
-    this.http.get<Product[]>('http://localhost:5000/shop').subscribe(
-      data => {
-        this.products = data;
+  checkAdminLoginStatus() {
+    this.http.get('http://localhost:5000/checkadminlogin').subscribe(
+      (response: any) => {
+        if (response && response['status'] === 'success') {
+          // Admin is logged in
+          this.isAdminLoggedIn = true;
+        } else {
+          // Admin is not logged in
+          this.isAdminLoggedIn = false;
+        }
       },
       error => {
         console.error(error);
-        alert('An error occurred while loading products. Please try again later.');
+        // Set the flag to false in case of an error
+        this.isAdminLoggedIn = false;
       }
     );
   }
 
-  deleteProduct(productId: number): void {
-    if (confirm('Are you sure you want to delete this product?')) {
-      this.http.delete(`http://localhost:5000/product/${productId}`).subscribe(
-        () => {
-          alert('Product deleted successfully');
-          this.loadProducts();
-        },
-        error => {
-          console.error(error);
-          alert('An error occurred while deleting the product. Please try again later.');
-        }
-      );
-    }
+ loadProducts(): void {
+  if (!this.isAdminLoggedIn) {
+    alert('Please log in as an admin to view and manage products.');
+    return;
   }
 
-  addNewProduct(): void {
-    this.showAddProductForm = true;
+  this.http.get<Product[]>('http://localhost:5000/shop').subscribe(
+    data => {
+      this.products = data;
+    },
+    error => {
+      console.error(error);
+      alert('An error occurred while loading products. Please try again later.');
+    }
+  );
+}
+
+
+deleteProduct(productId: number): void {
+  if (!this.isAdminLoggedIn) {
+    alert('Please log in as an admin to delete products.');
+    return;
   }
+
+  if (confirm('Are you sure you want to delete this product?')) {
+    this.http.delete(`http://localhost:5000/product/${productId}`).subscribe(
+      () => {
+        alert('Product deleted successfully');
+        this.loadProducts();
+      },
+      error => {
+        console.error(error);
+        alert('An error occurred while deleting the product. Please try again later.');
+      }
+    );
+  }
+}
+
+
+addNewProduct(): void {
+  if (!this.isAdminLoggedIn) {
+    alert('Please log in as an admin to add products.');
+    return;
+  }
+
+  this.showAddProductForm = true;
+}
+
 
   submitNewProduct(): void {
+    if ( !this.isAdminLoggedIn){
+      alert('Please log in as an admin to add products.');
+      return;
+    }
     // Send a request to add the new product to the database
     console.log('New Product:', this.newProduct);
     this.http.post('http://localhost:5000/product', this.newProduct).subscribe(
@@ -93,13 +137,19 @@ export class ProductManagementComponent implements OnInit {
     );
   }
 
-  editProduct(productId: number): void {
-    const product = this.products.find(p => p.product_ID === productId);
-    if (product) {
-      this.selectedProduct = { ...product }; // Create a copy of the product object
-      this.showEditProductForm = true;
-    }
+editProduct(productId: number): void {
+  if (!this.isAdminLoggedIn) {
+    alert('Please log in as an admin to edit products.');
+    return;
   }
+
+  const product = this.products.find(p => p.product_ID === productId);
+  if (product) {
+    this.selectedProduct = { ...product }; // Create a copy of the product object
+    this.showEditProductForm = true;
+  }
+}
+
 
   submitEditedProduct(): void {
     if (this.selectedProduct) {
@@ -134,4 +184,15 @@ export class ProductManagementComponent implements OnInit {
     this.newProduct.product_weight = '';
     this.newProduct.product_image = '';
   }
+
+
+cancelAddProduct(): void {
+  this.showAddProductForm = false;
+  this.clearNewProductFields();
+}
+
+cancelEditProduct(): void {
+  this.showEditProductForm = false;
+  this.clearSelectedProduct();
+}
 }
