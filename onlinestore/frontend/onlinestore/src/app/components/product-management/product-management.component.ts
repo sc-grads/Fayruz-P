@@ -30,9 +30,11 @@ export class ProductManagementComponent implements OnInit {
     product_weight: '',
     product_image: ''
   };
+
   showAddProductForm: boolean = false;
   showEditProductForm: boolean = false;
   selectedProduct: Product | null = null;
+
   isAdminLoggedIn: boolean = false;
 
 
@@ -63,10 +65,7 @@ export class ProductManagementComponent implements OnInit {
   }
 
  loadProducts(): void {
-  if (!this.isAdminLoggedIn) {
-    alert('Please log in as an admin to view and manage products.');
-    return;
-  }
+
 
   this.http.get<Product[]>('http://localhost:5000/shop').subscribe(
     data => {
@@ -81,10 +80,7 @@ export class ProductManagementComponent implements OnInit {
 
 
 deleteProduct(productId: number): void {
-  if (!this.isAdminLoggedIn) {
-    alert('Please log in as an admin to delete products.');
-    return;
-  }
+
 
   if (confirm('Are you sure you want to delete this product?')) {
     this.http.delete(`http://localhost:5000/product/${productId}`).subscribe(
@@ -102,10 +98,7 @@ deleteProduct(productId: number): void {
 
 
 addNewProduct(): void {
-  if (!this.isAdminLoggedIn) {
-    alert('Please log in as an admin to add products.');
-    return;
-  }
+
 
   this.showAddProductForm = true;
 }
@@ -138,17 +131,15 @@ addNewProduct(): void {
   }
 
 editProduct(productId: number): void {
-  if (!this.isAdminLoggedIn) {
-    alert('Please log in as an admin to edit products.');
-    return;
-  }
-
   const product = this.products.find(p => p.product_ID === productId);
   if (product) {
     this.selectedProduct = { ...product }; // Create a copy of the product object
     this.showEditProductForm = true;
+  } else {
+    this.selectedProduct = null; // Handle the case when product is not found
   }
 }
+
 
 
   submitEditedProduct(): void {

@@ -120,10 +120,7 @@
                     </a>
                 </li>
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="text" placeholder="Search">
-                <button class="btn btn-primary" type="button">Search</button>
-            </form>
+
         </div>
     </div>
 </nav>
@@ -138,7 +135,9 @@
                     <h5 class="card-title">{{ product.product_name }}</h5>
                     <p class="card-text">R{{ product.product_price }}</p>
                     <p class="card-text">{{ product.product_size }}</p>
-                    <button (click)="addToCart(product.product_ID)" class="btn btn-primary">Add to Cart</button>
+
+                    <button (click)="addToCart(product.product_ID)" class="btn btn-primary" *ngIf="isLoggedIn">Add to Cart</button>
+                    <p class="card-text" *ngIf="!isLoggedIn">Please log in to add items to your cart.</p>
                 </div>
             </div>
         </div>
