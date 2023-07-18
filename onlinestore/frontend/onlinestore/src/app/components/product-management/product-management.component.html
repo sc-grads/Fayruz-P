@@ -1,69 +1,204 @@
-<h1>Product Management</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-<button class="btn btn-primary mb-3" (click)="addNewProduct()">Add New Product</button>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+    crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+    rel="stylesheet">
+  <style>
+    .navbar {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      background-color: #343a40;
+    }
 
-<!-- Add product form -->
-<div *ngIf="showAddProductForm">
-  <h2>Add Product</h2>
-  <form (submit)="submitNewProduct()">
-    <!-- Add input fields for product details -->
-    <div class="form-group">
-      <label for="productName">Name</label>
-      <input type="text" class="form-control" id="productName" [(ngModel)]="newProduct.product_name" name="productName" required>
-    </div>
-    <div class="form-group">
-      <label for="productPrice">Price</label>
-      <input type="number" class="form-control" id="productPrice" [(ngModel)]="newProduct.product_price" name="productPrice" required>
-    </div>
-    <div class="form-group">
-      <label for="productSize">Size</label>
-      <input type="text" class="form-control" id="productSize" [(ngModel)]="newProduct.product_weight" name="productSize" required>
-    </div>
-    <div class="form-group">
-      <label for="productImage">Image URL</label>
-      <input type="text" class="form-control" id="productImage" [(ngModel)]="newProduct.product_image" name="productImage" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Add</button>
-  </form>
+    .navbar .navbar-brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar .navbar-brand .logo-image {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .navbar .navbar-nav .nav-link {
+      color: #fff;
+      margin-right: 10px;
+      font-size: 1rem;
+    }
+
+    .navbar .navbar-nav .nav-link:hover,
+    .navbar .navbar-nav .nav-link:focus {
+      color: #fff;
+    }
+
+    .navbar .navbar-nav .nav-link.active {
+      font-weight: bold;
+    }
+
+    .navbar .navbar-nav.ms-auto .nav-link i.bi-cart {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+
+    .container {
+      margin-top: 2rem;
+    }
+
+    .card {
+      margin-bottom: 2rem;
+      border: none;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+    }
+
+    .card .card-img-top {
+      height: 200px;
+      object-fit: contain;
+    }
+  </style>
+</head>
+
+<body>
+  <ng-container *ngIf="isAdminLoggedIn; else errorMessage">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="javascript:void(0)">
+          <img class="logo-image" src="./assets/product_images/logo.png" alt="Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mynavbar">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="http://localhost:4200/admindashboard">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="http://localhost:4200/adminlogin">Login</a>
+            </li>
+          </ul>
 </div>
+      </div>
+    </nav>
 
-<!-- Edit Product Form -->
-<div *ngIf="showEditProductForm && selectedProduct">
+    <div class="container">
+      <h1>Product Management</h1>
+
+      <button class="btn btn-primary mb-3" (click)="addNewProduct()">Add New Product</button>
+
+      <!-- Add product form -->
+      <div *ngIf="showAddProductForm">
+        <h2>Add Product</h2>
+        <form (submit)="submitNewProduct()">
+          <!-- Add input fields for product details -->
+          <div class="form-group">
+            <label for="productName">Name</label>
+            <input type="text" class="form-control" id="productName" [(ngModel)]="newProduct.product_name"
+              name="productName" required>
+          </div>
+          <div class="form-group">
+            <label for="productPrice">Price</label>
+            <input type="number" class="form-control" id="productPrice" [(ngModel)]="newProduct.product_price"
+              name="productPrice" required>
+          </div>
+          <div class="form-group">
+            <label for="productSize">Size</label>
+            <input type="text" class="form-control" id="productSize" [(ngModel)]="newProduct.product_weight"
+              name="productSize" required>
+          </div>
+          <div class="form-group">
+            <label for="productImage">Image URL</label>
+            <input type="text" class="form-control" id="productImage" [(ngModel)]="newProduct.product_image"
+              name="productImage" required>
+          </div>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-secondary" (click)="cancelAddProduct()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+      </div>
+
+
+      <!-- Existing Product list -->
+      <div class="row" *ngIf="!showAddProductForm">
+        <div class="col-md-3" *ngFor="let product of products">
+          <div class="card">
+            <img [src]="product.product_image" alt="Product Image" class="card-img-top img-fluid">
+            <div class="card-body">
+              <h5 class="card-title">{{ product.product_name }}</h5>
+              <p class="card-text">Price: R{{ product.product_price }}</p>
+              <p class="card-text">Weight: {{ product.product_weight }}</p>
+              <div class="btn-group" role="group">
+                <button (click)="editProduct(product.product_ID)" class="btn btn-primary me-2">Edit Product</button>
+
+                <button (click)="deleteProduct(product.product_ID)" class="btn btn-primary">Delete Product</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+<div *ngIf="showEditProductForm">
   <h2>Edit Product</h2>
   <form (submit)="submitEditedProduct()">
-    <!-- Add input fields for product details -->
+    <!-- Add input fields for editing product details -->
     <div class="form-group">
       <label for="editProductName">Name</label>
-      <input type="text" class="form-control" id="editProductName" [(ngModel)]="selectedProduct.product_name" name="editProductName" required>
+     <input *ngIf="selectedProduct" type="text" class="form-control" id="editProductName"
+  [(ngModel)]="selectedProduct.product_name" name="editProductName" required>
+
+
     </div>
     <div class="form-group">
       <label for="editProductPrice">Price</label>
-      <input type="number" class="form-control" id="editProductPrice" [(ngModel)]="selectedProduct.product_price" name="editProductPrice" required>
+      <input *ngIf="selectedProduct" type="number" class="form-control" id="editProductPrice"
+  [(ngModel)]="selectedProduct.product_price" name="editProductPrice" required>
+
     </div>
     <div class="form-group">
       <label for="editProductSize">Size</label>
-      <input type="text" class="form-control" id="editProductSize" [(ngModel)]="selectedProduct.product_weight" name="editProductSize" required>
+     <input *ngIf="selectedProduct" type="text" class="form-control" id="editProductSize"
+  [(ngModel)]="selectedProduct.product_weight" name="editProductSize" required>
+
     </div>
     <div class="form-group">
       <label for="editProductImage">Image URL</label>
-      <input type="text" class="form-control" id="editProductImage" [(ngModel)]="selectedProduct.product_image" name="editProductImage" required>
+     <input type="text" class="form-control" id="editProductImage"
+  [(ngModel)]="selectedProduct.product_image" name="editProductImage" required *ngIf="selectedProduct">
+
+
     </div>
-    <button type="submit" class="btn btn-primary">Update</button>
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-secondary" (click)="cancelEditProduct()">Cancel</button>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
   </form>
 </div>
 
-<!-- Product list -->
-<div class="row">
-  <div class="col-md-3" *ngFor="let product of products">
-    <div class="card">
-      <img [src]="product.product_image" alt="Product Image" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;">
-      <div class="card-body">
-        <h5 class="card-title">{{ product.product_name }}</h5>
-        <p class="card-text">Price: R{{ product.product_price }}</p>
-        <p class="card-text">Weight: {{ product.product_weight }}</p>
-        <button (click)="editProduct(product.product_ID)" class="btn btn-primary">Edit Product</button>
-        <button (click)="deleteProduct(product.product_ID)" class="btn btn-primary">Delete Product</button>
-      </div>
+  <ng-template #errorMessage>
+    <div class="error-message">
+      Error: You must be logged in as an admin to perform this action.
+      <a class="btn btn-primary" href="http://localhost:4200/adminlogin">Login</a>
     </div>
-  </div>
-</div>
+  </ng-template>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-v8eAaREff7FiWB7CQO5g3LcFxqKOrM5o1hS9DUGyJ4EvMybOZ/1qCmVkjjbRE+yB"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

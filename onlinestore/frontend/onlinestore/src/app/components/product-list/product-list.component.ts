@@ -18,40 +18,54 @@ interface Product {
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
-
+  isLoggedIn: boolean = false; // New property to track login status
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
+    this.checkSessionStatus();
     this.http.get<any[]>('http://localhost:5000/shop').subscribe(data => {
       this.products = data;
     });
   }
 
-  // addToCart(productId: number) {
-  //   this.http.post('http://localhost:5000/add_to_cart', { product_id: productId, quantity: 1 }).subscribe(response => {
-  //     console.log(response);
-  //   });
-  // }
-  addToCart(productId: number) {
-  this.http.post('http://localhost:5000/add_to_cart', { product_id: productId, quantity: 1 }).subscribe(
-    (response: any) => {
-      console.log(response);
-      // Check if adding to cart was successful based on response
-      if (response && response['status'] === 'success') {
-        // Adding to cart was successful, show success alert
-        alert('Item added to cart!');
-      } else {
-        // Adding to cart failed, show error alert with error message from backend
-        alert('Failed to add item to cart. ' + response['message']);
+
+ addToCart(productId: number) {
+  if (this.isLoggedIn) {
+    this.http.post('http://localhost:5000/add_to_cart', { product_id: productId, quantity: 1 }).subscribe(
+      (response: any) => {
+        console.log(response);
+        // Check if adding to cart was successful based on response
+        if (response && response['status'] === 'success') {
+          // Adding to cart was successful, show success alert
+          alert('Item added to cart!');
+        } else {
+          // Adding to cart failed, show error alert with error message from backend
+          alert('Failed to add item to cart. ' + response['message']);
+        }
+      },
+      (error) => {
+        console.error(error);
+        alert('An error occurred while adding item to cart. Please try again later.');
       }
+    );
+  } else {
+    // User is not logged in, redirect to login page
+    window.location.href = 'http://localhost:4200/login'; // Replace with your actual login page URL
+  }
+}
+
+
+checkSessionStatus(): void {
+  this.http.get<boolean>('http://localhost:5000/check_session_status').subscribe(
+    (isLoggedIn: boolean) => {
+      this.isLoggedIn = isLoggedIn;
     },
     (error) => {
       console.error(error);
-      alert('An error occurred while adding item to cart. Please try again later.');
+      // Handle the error appropriately, such as showing an error message to the user
     }
   );
 }
-
 
   sanitizeUrl(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);

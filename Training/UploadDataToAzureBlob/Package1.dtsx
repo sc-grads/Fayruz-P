@@ -1,0 +1,80 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/21/2023 11:25:00 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-ISR70S1"
+  DTS:CreatorName="DESKTOP-ISR70S1\Fayruz Paruk"
+  DTS:DTSID="{911B8B3A-860A-47D8-84E9-CD1479DBCF9C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5131.0"
+  DTS:LocaleID="7177"
+  DTS:ObjectName="Package1"
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{3EADFC7D-4464-476E-B046-0E0E5D0F2F2E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SSIS Connection Manager for Azure Storage 1]"
+      DTS:CreationName="AzureStorage"
+      DTS:DTSID="{BE394101-54BF-4EC6-8FA2-D286FEDB1D02}"
+      DTS:ObjectName="SSIS Connection Manager for Azure Storage 1">
+      <DTS:ObjectData>
+        <AzureStorageConnectionManager
+          ConnectionString="AuthType=SharedAccessSignature;SasResourcePath=azureinput/datasource;AccountName=testacc213;DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;"
+          ConnectByProxy="False">
+          <SasToken
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAPBMJXxRKp0aEyYn2XzQubgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAVjrFM2N5Yhvp+/s8qWZjybedAtIlPo+IQ43Swsk+z1AAAAAAOgAAAAAIAACAAAAAoRQPVY5jkhzh3rKpcg5XGyLN89Eml/n7O+I/eCoAQfzABAADB4avW4Ud7lUbhM9XePt6XBvioOW/3RziQex4a+sep5sCy+WD5zRiwMtuUVucdyOXjMTg9DMUIp89+7iQl5bDYYpYJUeWn7HGoTE+sT/C/xVSGmvTsCPSWqfzeKL7q6duRfun+0iKKVczXmzj9PdgPBLuFDQRuvC1YDUUfOHp96Xndv9tVALnRGnKWz0EdUv6Wb6WbUxfbEVFHCCHDP7RYEdMayLeObatHCBau0kWWMHK/+G5wJzDlV5OK0xVhCWN9OXlI9HZ2hpEBiBwytMwDrVDo4iAdCVazzwRbaKegf01kCCCZQXlrPWRXkH6+2Co9d6RVlsMIDLOIAe0i4xZ8MkergxFgWb6KGHuK4S9QU8eZQVoTHdkZ+cJKW4Dz4iN1jyixj0DZDjotDb/NajG0QAAAAN9lqSRsG6ZEpnZ+OyOLKmG8lYfL3XAkhLvOsC1p/ACiCl5MoxU+Bp8vopD1DXwhuYjpGJbWOmOqOBhKR/jvQDc</SasToken>
+        </AzureStorageConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Azure Blob Upload Task"
+      DTS:CreationName="CopyToBlobTask"
+      DTS:Description="Azure Blob Upload Task"
+      DTS:DTSID="{1132BAC3-04BC-46ED-B60D-7ED158AD4EEC}"
+      DTS:ExecutableType="CopyToBlobTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Azure Blob Upload Task"
+      DTS:TaskContact="Azure Blob Upload Task; (C) Microsoft Corporation; All Rights Reserved"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <CopyToBlobTask
+          ConnectionId="{BE394101-54BF-4EC6-8FA2-D286FEDB1D02}"
+          BlobContainer="azureinput"
+          BlobDirectory="datafiles/"
+          LocalDirectory="C:\DataSSIS"
+          FileNameFilter="HR Data.xlsx"
+          TimeRangeFrom="1900/01/01 00:00:00 +02:00"
+          TimeRangeTo="2200/12/31 00:00:00 +02:00"
+          SearchRecursively="1" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="190.4,41.6"
+          Id="Package\Azure Blob Upload Task"
+          TopLeft="89.6666620680029,67.0333329054382" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

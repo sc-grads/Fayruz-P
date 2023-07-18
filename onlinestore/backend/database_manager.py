@@ -1,10 +1,10 @@
-import binascii
-import os
+
 from collections import namedtuple
+from datetime import date
+
 import pyodbc
-from flask import Flask, request, jsonify
 import bcrypt
-from bcrypt import hashpw, gensalt, checkpw as safe_checkpw
+
 
 
 server = 'DESKTOP-ISR70S1'
@@ -48,13 +48,32 @@ def insert_product(product_name, product_price, product_weight, product_image):
 
 
 def delete_product(product_id):
-
     dbconnect = pyodbc.connect(connection)
     cursor = dbconnect.cursor()
 
-    cursor.execute(f"DELETE FROM Products WHERE product_ID = {product_id}")
-    cursor.commit()
-    cursor.close()
+    try:
+        # Check if the product exists in any cart
+        cursor.execute("SELECT cart_id FROM CartItems WHERE product_id = ?", (product_id,))
+        rows = cursor.fetchall()
+
+        if rows:
+            # Delete the items associated with the product from the CartItems table
+            cursor.execute("DELETE FROM CartItems WHERE product_id = ?", (product_id,))
+            dbconnect.commit()
+
+        # Delete the product from the Products table
+        cursor.execute("DELETE FROM Products WHERE product_ID = ?", (product_id,))
+        dbconnect.commit()
+
+        return {'status': 'success', 'message': 'Product deleted successfully'}
+    except Exception as e:
+        # Handle any exceptions that occur during the deletion
+        print(f"Error deleting product from database: {str(e)}")
+        dbconnect.rollback()
+        return {'status': 'error', 'message': 'Failed to delete product. Check the database connection and try again.'}
+    finally:
+        cursor.close()
+
 
 
 def edit_product(product_id, product_name, product_price, product_weight, product_image):
@@ -127,6 +146,65 @@ def get_products():
     Product = namedtuple('Product', [column[0] for column in cursor.description])
     return [dict(Product._make(row)._asdict()) for row in rows]
 
+# Function to create an order in the database
+def create_order(user, total_amount):
+    dbconnect = pyodbc.connect(connection)
+    cursor = dbconnect.cursor()
+
+    # Retrieve the customer ID based on the email address
+    cursor.execute(f"SELECT customer_id FROM Customers WHERE email_address = '{user}'")
+    customer_id = cursor.fetchone()[0]
+
+    # Insert the order into the Orders table
+    current_date = date.today().strftime("%Y-%m-%d")
+    cursor.execute(
+        f"INSERT INTO Orders (customer_id, total_amount, order_date) VALUES ({customer_id}, {total_amount}, '{current_date}')")
+    cursor.commit()
+
+    # Retrieve the generated order ID
+    order_id = cursor.execute("SELECT SCOPE_IDENTITY()").fetchone()[0]
+
+    cursor.close()
+    return order_id
+
+# Function to add an order item to the order
+def add_order_item(order_id, product_id, quantity, product_price):
+    dbconnect = pyodbc.connect(connection)
+    cursor = dbconnect.cursor()
+
+    cursor.execute(
+        "INSERT INTO OrderItems (order_id, product_id, quantity, unit_price) "
+        f"VALUES ({order_id}, {product_id}, {quantity}, {product_price})"
+    )
+    cursor.commit()
+
+    cursor.close()
+
+# Function to clear the user's cart
+def clear_cart(user):
+    dbconnect = pyodbc.connect(connection)
+    cursor = dbconnect.cursor()
+
+    # Retrieve the customer ID based on the email address
+    cursor.execute("SELECT customer_ID FROM Customers WHERE email_address = ?", (user,))
+    row = cursor.fetchone()
+    if row:
+        customer_id = row[0]
+
+        # Delete the cart items associated with the customer
+        cursor.execute("DELETE FROM CartItems WHERE cart_id IN (SELECT cart_id FROM Cart WHERE customer_id = ?)",
+                       (customer_id,))
+
+        # Delete the cart
+        cursor.execute("DELETE FROM Cart WHERE customer_id = ?", (customer_id,))
+        cursor.commit()
+
+        cursor.close()
+
+        return {'message': 'Cart cleared successfully'}
+    else:
+        cursor.close()
+        return {'error': 'Customer not found'}
 
 
 def add_to_cart(product_ID, quantity, customer_email):
@@ -140,40 +218,47 @@ def add_to_cart(product_ID, quantity, customer_email):
         customer_id = row[0]
 
         # Check if the product already exists in the cart for the customer
-        cursor.execute("SELECT quantity FROM Cart WHERE customer_ID = ? AND product_id = ?", (customer_id, product_ID))
+        cursor.execute("SELECT cart_id FROM Cart WHERE customer_ID = ?", (customer_id,))
         row = cursor.fetchone()
 
-        if row is None:
-            # Product does not exist in the cart, add it with the specified quantity
-            cursor.execute("INSERT INTO Cart (customer_ID, product_id, quantity) VALUES (?, ?, ?)", (customer_id, product_ID, quantity))
+        if row:
+            cart_id = row[0]
         else:
-            # Product already exists in the cart, update the quantity
-            new_quantity = row.quantity + quantity
-            cursor.execute("UPDATE Cart SET quantity = ? WHERE customer_ID = ? AND product_id = ?", (new_quantity, customer_id, product_ID))
+            # Create a new cart for the customer
+            cursor.execute("INSERT INTO Cart (customer_ID) VALUES (?)", (customer_id,))
+            dbconnect.commit()
 
-        cursor.commit()
+            # Retrieve the newly generated cart_id using SCOPE_IDENTITY()
+            cursor.execute("SELECT SCOPE_IDENTITY()")
+            cart_id = cursor.fetchone()[0]
+
+        # Insert the product into the CartItems table
+        cursor.execute("INSERT INTO CartItems (cart_id, product_id, quantity) VALUES (?, ?, ?)",
+                       (cart_id, product_ID, quantity))
+
+        # Calculate the current total of the cart
+        cursor.execute(
+            """
+            SELECT SUM(P.product_price * CI.quantity)
+            FROM CartItems CI
+            INNER JOIN Products P ON CI.product_ID = P.product_ID
+            WHERE CI.cart_id = ?
+            """,
+            (cart_id,)
+        )
+        total = cursor.fetchone()[0] or 0  # Get the sum or default to 0 if no items in cart
+
+        # Update the total value in the Cart table
+        cursor.execute("UPDATE Cart SET total = ? WHERE cart_id = ?", (total, cart_id))
+
+        dbconnect.commit()
         cursor.close()
 
         return {'status': 'success', 'message': 'Item added to cart'}
     else:
         return {'status': 'error', 'message': 'Customer not found'}
 
-def get_cart(customer_email):
-    dbconnect = pyodbc.connect(connection)
-    cursor = dbconnect.cursor()
-    cursor.execute("""
-        SELECT Products.product_name, Products.product_price, SUM(Cart.quantity) as quantity, Products.product_ID
-        FROM Cart
-        INNER JOIN Products ON Cart.product_ID = Products.product_ID
-        INNER JOIN Customers ON Cart.customer_ID = Customers.customer_ID
-        WHERE Customers.email_address = ?
-        GROUP BY Products.product_name, Products.product_price, Products.product_ID
-        """, (customer_email,))
-    cart_items = cursor.fetchall()
-    Items = namedtuple('CartItem', [column[0] for column in cursor.description])
-    items_dict = [dict(Items._make(row)._asdict()) for row in cart_items]
-    cursor.close()
-    return items_dict
+
 
 def remove_from_cart(customer_email, product_ID):
     dbconnect = pyodbc.connect(connection)
@@ -185,23 +270,93 @@ def remove_from_cart(customer_email, product_ID):
     if row:
         customer_id = row[0]
 
-        # Check if the product exists in the cart for the customer
-        cursor.execute("SELECT quantity FROM Cart WHERE customer_ID = ? AND product_ID = ?", (customer_id, product_ID))
+        # Retrieve the cart ID for the customer
+        cursor.execute("SELECT cart_id FROM Cart WHERE customer_id = ?", (customer_id,))
         row = cursor.fetchone()
-
         if row:
-            if row[0] > 1:
-                new_quantity = row[0] - 1
-                cursor.execute("UPDATE Cart SET quantity = ? WHERE customer_ID = ? AND product_ID = ?",
-                               (new_quantity, customer_id, product_ID))
-            else:
-                cursor.execute("DELETE FROM Cart WHERE customer_ID = ? AND product_ID = ?", (customer_id, product_ID))
+            cart_id = row[0]
 
-            dbconnect.commit()
+            # Check if the product exists in the cart
+            cursor.execute(
+                "SELECT quantity FROM CartItems WHERE cart_id = ? AND product_id = ?",
+                (cart_id, product_ID)
+            )
+            row = cursor.fetchone()
+
+            if row:
+                if row[0] > 1:
+                    new_quantity = row[0] - 1
+                    cursor.execute(
+                        "UPDATE CartItems SET quantity = ? WHERE cart_id = ? AND product_id = ?",
+                        (new_quantity, cart_id, product_ID)
+                    )
+                else:
+                    cursor.execute(
+                        "DELETE FROM CartItems WHERE cart_id = ? AND product_id = ?",
+                        (cart_id, product_ID)
+                    )
+
+                # Calculate the current total of the cart
+                cursor.execute(
+                    """
+                    SELECT SUM(P.product_price * CI.quantity)
+                    FROM CartItems CI
+                    INNER JOIN Products P ON CI.product_ID = P.product_ID
+                    WHERE CI.cart_id = ?
+                    """,
+                    (cart_id,)
+                )
+                total = cursor.fetchone()[0] or 0  # Get the sum or default to 0 if no items in cart
+
+                # Update the total value in the Cart table
+                cursor.execute("UPDATE Cart SET total = ? WHERE cart_id = ?", (total, cart_id))
+
+                dbconnect.commit()
+                cursor.close()
+                return {'status': 'success', 'message': 'Item removed from cart'}
+            else:
+                return {'status': 'error', 'message': 'Item not found in cart'}
+
+    # No customer or cart found
+    cursor.close()
+    return {'status': 'error', 'message': 'Customer not found or cart is empty'}
+
+
+def get_cart(customer_email):
+    dbconnect = pyodbc.connect(connection)
+    cursor = dbconnect.cursor()
+
+    # Retrieve the customer ID based on the email
+    cursor.execute("SELECT customer_ID FROM Customers WHERE email_address = ?", (customer_email,))
+    row = cursor.fetchone()
+    if row:
+        customer_id = row[0]
+
+        # Retrieve the cart ID for the customer
+        cursor.execute("SELECT cart_id FROM Cart WHERE customer_id = ?", (customer_id,))
+        row = cursor.fetchone()
+        if row:
+            cart_id = row[0]
+
+            # Retrieve the cart items
+            cursor.execute("""
+                SELECT P.product_name, P.product_price, CI.quantity, P.product_ID
+                FROM CartItems CI
+                INNER JOIN Products P ON CI.product_ID = P.product_ID
+                WHERE CI.cart_id = ?
+                """, (cart_id,))
+            cart_items = cursor.fetchall()
+            Items = namedtuple('CartItems', [column[0] for column in cursor.description])
+            items_dict = [dict(Items._make(row)._asdict()) for row in cart_items]
             cursor.close()
-            return {'status': 'success', 'message': 'Item removed from cart'}
-        else:
-            return {'status': 'error', 'message': 'Item not found in cart'}
-    else:
-        return {'status': 'error', 'message': 'Customer not found'}
+            return items_dict
+
+    # No customer or cart found
+    cursor.close()
+    return {'status': 'error', 'message': 'Customer not found or cart is empty'}
+
+
+
+
+
 

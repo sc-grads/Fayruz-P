@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/21/2023 9:41:59 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-ISR70S1"
+  DTS:CreatorName="DESKTOP-ISR70S1\Fayruz Paruk"
+  DTS:DTSID="{1B74DA08-44EF-40C4-9EF1-C2323061C09B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5131.0"
+  DTS:LocaleID="7177"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{9D7260CC-AA79-449B-9CA6-5C458E8BED51}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DataSSIS]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{5EA86B3B-C913-45F1-9105-7CDE7BC65BF1}"
+      DTS:ObjectName="DataSSIS">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="2"
+          DTS:ConnectionString="C:\DataSSIS" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[OldDataSSIS]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{AA1E03BE-5DFF-41E8-A0C1-BD9BA06ECBCB}"
+      DTS:ObjectName="OldDataSSIS">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="2"
+          DTS:ConnectionString="C:\OldDataSSIS" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SSIS Connection Manager for Azure Storage]"
+      DTS:CreationName="AzureStorage"
+      DTS:DTSID="{51146E77-D1C6-439D-A8B9-613D3A62628F}"
+      DTS:ObjectName="SSIS Connection Manager for Azure Storage">
+      <DTS:ObjectData>
+        <AzureStorageConnectionManager
+          ConnectionString="AccountName=storageaccount123459;DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;"
+          ConnectByProxy="False">
+          <AccountKey
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAPBMJXxRKp0aEyYn2XzQubgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA+NPxrExfArdHNdHEMb8bBtkd1fWkTtnyX1JsVLUlpvwAAAAAOgAAAAAIAACAAAAAd3d6lOGtVMpwCTgAUd8kltsBWDd1d+8U1+bfPLisQ+MAAAAC07kQvqsv+OciJP5TQijL08+2KnV4AbtwDOLejkbhV8/p39L/4Cy+weaPgX0S/6SBJ5HVM0omUWOJasXxaSEnBSFzAPycUSCDU47FMc7SrCyTzzsa6OWPL2Zx1MjvdLK75JhQa2MHDTBJHIX8AGIk1yvIBNJaz7uw+vU7qQf/oNS8Y4KpFDc83wDhFP+bPBUnscG9NRRNLIdXjQu061SJT/vD05QT2nr8PCoswiQD5IMIwVj60Xqugl3+/2ag91ZdAAAAAkyJPbrUMbnxMTktfH3yvR9P456VQqlr9esjgNKBe74bB7vgNu+TWzwIZ4D8pA4/Xhfx7bKEgRngmfY1cYKLupA</AccountKey>
+        </AzureStorageConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SSIS Connection Manager for Azure Storage 1]"
+      DTS:CreationName="AzureStorage"
+      DTS:DTSID="{DB3F4A22-0209-4C23-86DF-2597DE6F801E}"
+      DTS:ObjectName="SSIS Connection Manager for Azure Storage 1">
+      <DTS:ObjectData>
+        <AzureStorageConnectionManager
+          ConnectionString="AuthType=SharedAccessSignature;SasResourcePath=;AccountName=storageaccount123459;DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;"
+          ConnectByProxy="False">
+          <SasToken
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAPBMJXxRKp0aEyYn2XzQubgAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADIuelRAnmIgakSjkdZZ7oNzPYL28xedxOxtIyusb6YZwAAAAAOgAAAAAIAACAAAADSowpAzmZMC2YG2mL3sm0n2P1Nb018hO3JoroM4yoVGIABAAAL67Akgqenrda5U3OF5A/s1MhD3NSrbokM8LpEH/2uniX4ckFtl2k3RkXSBkWhnFKRfIT+qucXn1wd1/bFyNkWqt/PFN/YEt36O5nISm2KbXpzC3Pd3P47KY5lR9w13lTOgYKNu2isohCxgk3NWIRGgr+FPmyAbp+WfdFIxj16DOier3yZ/f7pFfemYiS+eQKv4A7LqqHWNNi6rf3dR1lM2bomIbei60/ZeJIqn1OdltvgWvNg6JVOnstfEK4ClYTlpzsNViw0YH9Q/lhwcKnFZ+Q8V/Npb6wGqvZYj7DwudJI1ri+pIG24pxKXZEUeFfir3J10phENt+4zVvDQybGqShtJW3Fz0fmr2GXXfh8HgY0gRJnGEdy3p0vhewxKVJriMD0xhmIIpTbWdtUVYXnuxszVR27S120sTFeCO+tzp72GtTKbvEMW9esKJtwdmkF/AaXCu8UoQe00M73VL1jzGjy6cpgJ9Oja5n0fOI4whssBL9tuaLqcyoA8jI644xAAAAA7/WtIJJ6lxt2wZqXHE8JbQj79gfSzJl1NhuEI3txdbnbunEEc2FF7ddG/3TskliqxzHgUTY94nnGNBlGLb2+IQ</SasToken>
+        </AzureStorageConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{79535708-A222-4FA1-BFDA-65F84433D4E8}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Variable">
+      <DTS:VariableValue
+        DTS:DataType="11">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Azure Blob Upload Task"
+      DTS:CreationName="CopyToBlobTask"
+      DTS:Description="Azure Blob Upload Task"
+      DTS:DTSID="{79ED97F4-E930-47B4-A3C9-00362B8FF227}"
+      DTS:ExecutableType="CopyToBlobTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Azure Blob Upload Task"
+      DTS:TaskContact="Azure Blob Upload Task; (C) Microsoft Corporation; All Rights Reserved"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <CopyToBlobTask
+          ConnectionId="{DB3F4A22-0209-4C23-86DF-2597DE6F801E}"
+          BlobContainer="testblobstorage"
+          BlobDirectory="datasources/"
+          LocalDirectory="C:\DataSSIS"
+          FileNameFilter="*"
+          TimeRangeFrom="1900/01/01 00:00:00 +02:00"
+          TimeRangeTo="2200/12/31 00:00:00 +02:00"
+          SearchRecursively="0" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="190.4,41.6"
+          Id="Package\Azure Blob Upload Task"
+          TopLeft="287.166651277079,68.7666662267182" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

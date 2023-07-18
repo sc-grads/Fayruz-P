@@ -1,88 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+          rel="stylesheet">
 
-<!--<h1>Products</h1>-->
-<!--<div class="row">-->
-<!--  <div class="col-md-4" *ngFor="let product of products">-->
-<!--    <div class="card">-->
-<!--      <img [src]="product.product_image" alt="Product Image" class="card-img-top img-fluid" style="height: 200px; object-fit: cover;">-->
-<!--      <div class="card-body">-->
-<!--        <h5 class="card-title">{{ product.product_name }}</h5>-->
-<!--        <p class="card-text">R{{ product.product_price }}</p>-->
-<!--        <p class="card-text">{{ product.product_size }}</p>-->
-<!--        <button (click)="addToCart(product.product_ID)" class="btn btn-primary">Add to Cart</button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .navbar {
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            background-color: #343a40;
+        }
+
+        .navbar .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .navbar-brand .logo-image {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .navbar .navbar-nav .nav-link {
+            color: #fff;
+            margin-right: 10px;
+            font-size: 1rem;
+        }
+
+        .navbar .navbar-nav .nav-link:hover,
+        .navbar .navbar-nav .nav-link:focus {
+            color: #fff;
+        }
+
+        .navbar .navbar-nav .nav-link.active {
+            font-weight: bold;
+        }
+
+        .navbar .navbar-nav.ms-auto .nav-link i.bi-cart {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .container {
+            margin-top: 2rem;
+        }
+
+        .card {
+            margin-bottom: 2rem;
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+        }
+
+        .card .card-img-top {
+            height: 200px;
+            object-fit: contain;
+        }
+
+        .card .card-body {
+            padding: 1.5rem;
+        }
+
+        .card .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .card .card-text {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+
+        .card .btn-primary {
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-  <div class="container-fluid">
+    <div class="container-fluid">
         <a class="navbar-brand" href="javascript:void(0)">
-      <img class="logo-image" src=".\assets\product_images\logo.png" alt="Logo">
+            <img class="logo-image" src=".\assets\product_images\logo.png" alt="Logo">
         </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="mynavbar">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="http://localhost:4200/">Shop</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="http://localhost:4200/login">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="http://localhost:4200/register">Sign Up</a>
-        </li>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:4200/">Shop</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:4200/dashboard" *ngIf="checkSessionStatus">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:4200/login" *ngIf="isLoggedIn==false">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:4200/register">Sign Up</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart">
+                        <i class="bi bi-cart"></i>
+                    </a>
+                </li>
+            </ul>
 
-      </ul>
-      <ul class="navbar-nav ms-auto"> <!-- Add ms-auto class to align items to the right -->
-        <li class="nav-item">
-          <a class="nav-link" href="/cart">
-            <i class="bi bi-cart"></i>
-          </a>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="text" placeholder="Search">
-        <button class="btn btn-primary" type="button">Search</button>
-      </form>
+        </div>
     </div>
-  </div>
 </nav>
 
-<style>
-  .navbar-nav .bi-cart {
-    font-size: 1.5rem;
-    margin-right: 0.5rem;
-  }
-</style>
-<style>
-  .logo-image {
-    width: 80px; /* specify the desired width */
-    height: 80px; /* specify the desired height */
-  }
-</style>
+<div class="container">
+    <h1>Products</h1>
+    <div class="row">
+        <div class="col-md-3" *ngFor="let product of products">
+            <div class="card">
+                <img [src]="product.product_image" alt="Product Image" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.product_name }}</h5>
+                    <p class="card-text">R{{ product.product_price }}</p>
+                    <p class="card-text">{{ product.product_size }}</p>
 
-<h1>Products</h1>
-<div class="row">
-  <div class="col-md-3" *ngFor="let product of products">
-    <div class="card">
-      <img [src]="product.product_image" alt="Product Image" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;">
-      <div class="card-body">
-        <h5 class="card-title">{{ product.product_name }}</h5>
-        <p class="card-text">R{{ product.product_price }}</p>
-        <p class="card-text">{{ product.product_size }}</p>
-        <button (click)="addToCart(product.product_ID)" class="btn btn-primary">Add to Cart</button>
-      </div>
+                    <button (click)="addToCart(product.product_ID)" class="btn btn-primary" *ngIf="isLoggedIn">Add to Cart</button>
+                    <p class="card-text" *ngIf="!isLoggedIn">Please log in to add items to your cart.</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-
-
-
-
-
-
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-9eSdPpDhMBaElHj/9JFAnJzpzTqkjq41zTEjcEgH1T7+Yh3ibIcB+Et9JNW5hH7A"
+        crossorigin="anonymous"></script>
+</body>
+</html>
