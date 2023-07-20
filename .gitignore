@@ -341,3 +341,13 @@ yarn-error.log
 /onlinestore/frontend/onlinestore/src/assets/product_images/
 /Training/RoadAccidentAnalysisProject/Data Sources/
 /Training/RoadAccidentAnalysisProject/Road_Accident_Analysis_Report.pdf
+/Training/RestAPIsWithFlask&Python/Section_3/.dockerignore
+/Training/RestAPIsWithFlask&Python/Section_3/blocklist.py
+/Training/RestAPIsWithFlask&Python/Section_3/project/README.md
+/Training/RestAPIsWithFlask&Python/Section_3/project/requirements.txt
+/Training/RestAPIsWithFlask&Python/Section_3/project/Dockerfile
+/Training/RestAPIsWithFlask&Python/Section_3/project/docker-entrypoint.sh
+/Training/RestAPIsWithFlask&Python/Section_3/project/blocklist.py
+/Training/RestAPIsWithFlask&Python/Section_3/project/CONTRIBUTING.md
+/Training/RestAPIsWithFlask&Python/Section_3/project/templates/
+/Training/RestAPIsWithFlask&Python/Section_3/project/migrations/
